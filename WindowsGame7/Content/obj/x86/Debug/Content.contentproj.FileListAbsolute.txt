@@ -1,0 +1,3 @@
+C:\Users\horst\Documents\Visual Studio 2008\Projects\WindowsGame7\WindowsGame7\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\daten\games\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\Content\obj\x86\Debug\ResolveAssemblyReference.cache

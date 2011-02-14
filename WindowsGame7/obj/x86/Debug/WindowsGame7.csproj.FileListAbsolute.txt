@@ -1,0 +1,6 @@
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\WindowsGame7.exe
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\WindowsGame7.pdb
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\WindowsGame7.exe
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\WindowsGame7.pdb
