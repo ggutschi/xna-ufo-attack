@@ -5,3 +5,4 @@ Content\Sprites\cannonball.xnb
 Content\Sprites\enemy.xnb
 Content\Sprites\background-space.xnb
 Content\Sprites\enemy_01.xnb
+Content\Sprites\cannon_01.xnb
