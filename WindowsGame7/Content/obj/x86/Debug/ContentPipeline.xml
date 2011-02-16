@@ -62,7 +62,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01.xnb</Output>
-      <Time>2011-02-16T17:47:12.2033737+01:00</Time>
+      <Time>2011-02-16T21:58:53.2565551+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_01.tga</Source>
+      <Name>Sprites\cannon_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01.xnb</Output>
+      <Time>2011-02-16T21:01:13.8736897+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

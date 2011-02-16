@@ -91,11 +91,11 @@ namespace WindowsGame7
                     content.Load<Texture2D>("Sprites\\background-space");
 
                 cannon = new GameObject(content.Load<Texture2D>(
-                    "Sprites\\cannon"));
+                    "Sprites\\cannon_01"));
 
                 //Position is near the bottom-left of the screen.
                 cannon.position = new Vector2(
-                    graphics.GraphicsDevice.Viewport.Width/2, graphics.GraphicsDevice.Viewport.Height - 80);
+                    graphics.GraphicsDevice.Viewport.Width/2, graphics.GraphicsDevice.Viewport.Height - 30);
 
                 cannonBalls = new GameObject[maxCannonBalls];
 
@@ -171,9 +171,9 @@ namespace WindowsGame7
                 cannon.rotation += 0.1f;
             }
 #endif
-            //Restrict cannon rotation to a ninety-degree angle: clamp(value, min, max)
+            //Restrict cannon rotation toa ninety-degree angle: clamp(value, min, max)
             cannon.rotation = MathHelper.Clamp(
-                cannon.rotation, -MathHelper.PiOver2, 0);
+                cannon.rotation, -1f, 1f);
 
             //Only fire cannon ball if player has pressed button
             //this update loop - do not fire cannon ball if
@@ -270,10 +270,14 @@ namespace WindowsGame7
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
                     //then scale by 5 to speed up the ball.
+                    //Console.WriteLine(cannon.rotation);
+                    float cannon_rotation = cannon.rotation - 1.6f;
                     ball.velocity = new Vector2(
-                        (float)Math.Cos(cannon.rotation),
-                        (float)Math.Sin(cannon.rotation))
+                        (float)Math.Cos(cannon_rotation),
+                        (float)Math.Sin(cannon_rotation))
                     * 5.0f;
+
+                   
                     return;
                 }
             }
