@@ -50,9 +50,13 @@ namespace WindowsGame7
         Random random = new Random();
         GameObject[] enemies;
 
+        GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
+
         int score;
+        int lifes = 5;
         SpriteFont font;
-        Vector2 scoreDrawPoint = new Vector2(0.1f, 0.1f);
+        Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
+        Vector2 lifesDrawPoint = new Vector2(0.85f, 0.05f);
 
         public Game1()
         {
@@ -308,8 +312,14 @@ namespace WindowsGame7
                     ball.alive = true;
 
                     // Get random enemy
-                    Random r = new Random();
-                    GameObject enemyToShoot = enemies[random.Next(maxEnemyCannonBalls)];
+                    GameObject enemyToShoot;
+
+                    do
+                    {
+                        enemyToShoot = enemies[random.Next(maxEnemyCannonBalls)];
+                    } while (enemyToShoot == lastEnemyShooted);
+
+                    lastEnemyShooted = enemyToShoot;
 
                     ball.position = enemyToShoot.position;
 
@@ -428,11 +438,11 @@ namespace WindowsGame7
                     if (cannonBallRect.Intersects(cannonRect))
                     {
                         ball.alive = false;
-                        cannon.alive = false;
 
                         //Hitting an enemy with a cannon ball
                         //counts as a score point.
-                        score += 1;
+                        if (lifes > 0)
+                            lifes--;
 
                         break;
                     }
@@ -496,6 +506,17 @@ namespace WindowsGame7
                 new Vector2(scoreDrawPoint.X * viewportRect.Width,
                 scoreDrawPoint.Y * viewportRect.Height),
                 Color.Yellow);
+
+            //Construct a score string and draw to
+            //near top-right corner of the screen.
+            spriteBatch.DrawString(font,
+                "Lifes: " + lifes.ToString(),
+                new Vector2(lifesDrawPoint.X * viewportRect.Width,
+                lifesDrawPoint.Y * viewportRect.Height),
+                Color.Yellow);
+
+            if (lifes < 1)
+                spriteBatch.DrawString(font, "!!! GAME OVER !!!", new Vector2(viewportRect.Width / 2 - 85, viewportRect.Height / 2 - 20), Color.Red);
 
             spriteBatch.End();
 
