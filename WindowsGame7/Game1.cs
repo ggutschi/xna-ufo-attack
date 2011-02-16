@@ -36,6 +36,9 @@ namespace WindowsGame7
         const int maxCannonBalls = 3;
         GameObject[] cannonBalls;
 
+        const int maxEnemyCannonBalls = 3;
+        GameObject[] enemyCannonBalls;
+
         GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
         KeyboardState previousKeyboardState = Keyboard.GetState();
 
@@ -113,6 +116,13 @@ namespace WindowsGame7
                         content.Load<Texture2D>("Sprites\\enemy_01"));
                 }
 
+                enemyCannonBalls = new GameObject[maxEnemyCannonBalls];
+                for (int i = 0; i < maxEnemyCannonBalls; i++)
+                {
+                    enemyCannonBalls[i] = new GameObject(
+                        content.Load<Texture2D>("Sprites\\cannonball"));
+                }
+
                 font = content.Load<SpriteFont>("Fonts\\GameFont");
             }
 
@@ -171,7 +181,7 @@ namespace WindowsGame7
                 cannon.rotation += 0.1f;
             }
 #endif
-            //Restrict cannon rotation toa ninety-degree angle: clamp(value, min, max)
+            //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
             cannon.rotation = MathHelper.Clamp(
                 cannon.rotation, -1f, 1f);
 
@@ -192,8 +202,10 @@ namespace WindowsGame7
             }
 #endif
 
+            FireEnemyCannonBall();
 
             UpdateCannonBalls();
+            UpdateEnemyCannonBalls();
             UpdateEnemies();
 
             //Reset previous input states to current states
@@ -284,6 +296,39 @@ namespace WindowsGame7
         }
 
         /// <summary>
+        /// Places a cannon ball object into the game world
+        /// by setting position and velocity
+        /// </summary>
+        public void FireEnemyCannonBall()
+        {
+            foreach (GameObject ball in enemyCannonBalls)
+            {
+                if (!ball.alive)
+                {
+                    ball.alive = true;
+
+                    // Get random enemy
+                    Random r = new Random();
+                    GameObject enemyToShoot = enemies[random.Next(maxEnemyCannonBalls)];
+
+                    ball.position = enemyToShoot.position;
+
+                    //Determine velocity using vertical and horizontal
+                    //distance between enemy and cannon
+                    //then scale by 3 to speed up the ball.
+                    Vector2 normV = new Vector2(
+                        cannon.position.X - ball.position.X,
+                        cannon.position.Y - ball.position.Y);
+
+                    normV.Normalize();
+
+                    ball.velocity = normV * 2.0f;
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Moves cannon balls, handles cannon balls
         /// that move off screen edges, and tests intersection
         /// between cannon balls and enemies
@@ -342,6 +387,60 @@ namespace WindowsGame7
         }
 
         /// <summary>
+        /// Moves cannon balls, handles cannon balls
+        /// that move off screen edges, and tests intersection
+        /// between cannon balls and cannon
+        /// </summary>
+        public void UpdateEnemyCannonBalls()
+        {
+            foreach (GameObject ball in enemyCannonBalls)
+            {
+                if (ball.alive)
+                {
+                    //Check if the ball is contained within
+                    //the screen-sized rectangle. If not,
+                    //kill the ball.
+                    ball.position += ball.velocity;
+                    if (!viewportRect.Contains(new Point(
+                        (int)ball.position.X,
+                        (int)ball.position.Y)))
+                    {
+                        ball.alive = false;
+                        continue;
+                    }
+
+                    //Construct a collision rectangle around
+                    //the cannonball using current position.
+                    Rectangle cannonBallRect = new Rectangle(
+                        (int)ball.position.X,
+                        (int)ball.position.Y,
+                        ball.sprite.Width,
+                        ball.sprite.Height);
+
+                    //Construct a collision rectangle around cannon, and
+                    //check for an intersection.
+                    Rectangle cannonRect = new Rectangle(
+                        (int)cannon.position.X,
+                        (int)cannon.position.Y,
+                        cannon.sprite.Width,
+                        cannon.sprite.Height);
+
+                    if (cannonBallRect.Intersects(cannonRect))
+                    {
+                        ball.alive = false;
+                        cannon.alive = false;
+
+                        //Hitting an enemy with a cannon ball
+                        //counts as a score point.
+                        score += 1;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -357,6 +456,15 @@ namespace WindowsGame7
                 Color.White);
 
             foreach (GameObject ball in cannonBalls)
+            {
+                if (ball.alive)
+                {
+                    spriteBatch.Draw(ball.sprite,
+                        ball.position, Color.White);
+                }
+            }
+
+            foreach (GameObject ball in enemyCannonBalls)
             {
                 if (ball.alive)
                 {
