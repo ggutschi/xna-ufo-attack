@@ -7,7 +7,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\Fonts\GameFont.xnb</Output>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\GameFont.xnb</Output>
       <Time>2009-11-06T04:01:16+01:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\Sprites\background.xnb</Output>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background.xnb</Output>
       <Time>2009-11-06T04:01:26+01:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon.xnb</Output>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon.xnb</Output>
       <Time>2009-11-06T04:01:26+01:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
       <Time>2009-11-06T04:01:26+01:00</Time>
     </Item>
     <Item>
@@ -43,18 +43,36 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy.xnb</Output>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy.xnb</Output>
       <Time>2009-11-06T04:01:26+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\background-space.tga</Source>
+      <Name>Sprites\background-space</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background-space.xnb</Output>
+      <Time>2011-02-16T18:39:48.0067506+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\enemy_01.tga</Source>
+      <Name>Sprites\enemy_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01.xnb</Output>
+      <Time>2011-02-16T17:47:12.2033737+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\Content\</RootDirectory>
-      <LoggerRootDirectory>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\uni\Computer Games\VK_Games_Lab_-_Game_Programming_I_-_Sources\VK_Games_Lab_-_Game_Programming_I_-_Sources\WindowsGame7\WindowsGame7\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\workspace\xna-ufo-attack\WindowsGame7\Content\</RootDirectory>
+      <LoggerRootDirectory>D:\workspace\xna-ufo-attack\WindowsGame7\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\workspace\xna-ufo-attack\WindowsGame7\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

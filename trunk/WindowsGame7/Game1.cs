@@ -88,14 +88,14 @@ namespace WindowsGame7
             {
 
                 backgroundTexture =
-                    content.Load<Texture2D>("Sprites\\background");
+                    content.Load<Texture2D>("Sprites\\background-space");
 
                 cannon = new GameObject(content.Load<Texture2D>(
                     "Sprites\\cannon"));
 
                 //Position is near the bottom-left of the screen.
                 cannon.position = new Vector2(
-                    120, graphics.GraphicsDevice.Viewport.Height - 80);
+                    graphics.GraphicsDevice.Viewport.Width/2, graphics.GraphicsDevice.Viewport.Height - 80);
 
                 cannonBalls = new GameObject[maxCannonBalls];
 
@@ -110,7 +110,7 @@ namespace WindowsGame7
                 for (int i = 0; i < maxEnemies; i++)
                 {
                     enemies[i] = new GameObject(
-                        content.Load<Texture2D>("Sprites\\enemy"));
+                        content.Load<Texture2D>("Sprites\\enemy_01"));
                 }
 
                 font = content.Load<SpriteFont>("Fonts\\GameFont");
