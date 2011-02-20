@@ -205,11 +205,11 @@ namespace WindowsGame7
             {
                 cannon.rotation += 0.1f;
             }
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(Keys.A) && cannon.position.X >= 0)
             {
                 cannon.position.X -= 3f;
             }
-            if (keyboardState.IsKeyDown(Keys.D))
+            if (keyboardState.IsKeyDown(Keys.D) && cannon.position.X <= viewportRect.Width)
             {
                 cannon.position.X += 3f;
             }
