@@ -11,24 +11,6 @@
       <Time>2011-02-16T23:09:20.6153919+01:00</Time>
     </Item>
     <Item>
-      <Source>Sprites\background.tga</Source>
-      <Name>Sprites\background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background.xnb</Output>
-      <Time>2011-02-16T23:09:20.5583886+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\cannon.tga</Source>
-      <Name>Sprites\cannon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon.xnb</Output>
-      <Time>2011-02-16T23:09:20.5513882+01:00</Time>
-    </Item>
-    <Item>
       <Source>Sprites\cannonball.tga</Source>
       <Name>Sprites\cannonball</Name>
       <Importer>TextureImporter</Importer>
@@ -36,15 +18,6 @@
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
       <Time>2011-02-16T23:09:20.5453879+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\enemy.tga</Source>
-      <Name>Sprites\enemy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy.xnb</Output>
-      <Time>2011-02-16T23:09:20.5523883+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\background-space.tga</Source>
@@ -72,6 +45,52 @@
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01.xnb</Output>
       <Time>2011-02-16T23:09:20.5493881+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\cannonshoot.wav</Source>
+      <Name>Audio\Waves\cannonshoot</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\cannonshoot.xnb</Output>
+      <Time>2011-02-20T15:29:24.8117999+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\enemyshoot.wav</Source>
+      <Name>Audio\Waves\enemyshoot</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\enemyshoot.xnb</Output>
+      <Time>2011-02-20T15:39:51.8016617+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Mp3s\music.mp3</Source>
+      <Name>Audio\Mp3s\music</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.xnb</Output>
+      <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
+      <Time>2011-02-20T16:56:08.572438+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\explode.wav</Source>
+      <Name>Audio\Waves\explode</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\explode.xnb</Output>
+      <Time>2011-02-20T18:12:50.8866753+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_01_small.tga</Source>
+      <Name>Sprites\cannon_01_small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_small.xnb</Output>
+      <Time>2011-02-20T18:43:12.6198725+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

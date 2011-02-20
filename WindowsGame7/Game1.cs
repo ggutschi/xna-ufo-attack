@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -53,10 +54,19 @@ namespace WindowsGame7
         GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
         int score;
+
         int lifes = 5;
+        Texture2D lifeGraphics;
+
         SpriteFont font;
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
-        Vector2 lifesDrawPoint = new Vector2(0.85f, 0.05f);
+        Vector2 lifesDrawPoint = new Vector2(0.80f, 0.05f);
+
+        Song music;
+
+        SoundEffect enemyShootSound;
+        SoundEffect cannonShootSound;
+        SoundEffect explodeSound;
 
         public Game1()
         {
@@ -79,6 +89,15 @@ namespace WindowsGame7
         {
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
 
+            music = content.Load<Song>("Audio\\Mp3s\\music");
+
+            MediaPlayer.Play(music);
+            MediaPlayer.IsRepeating = true;
+
+            enemyShootSound = content.Load<SoundEffect>("Audio\\Waves\\enemyshoot");
+            cannonShootSound = content.Load<SoundEffect>("Audio\\Waves\\cannonshoot");
+            explodeSound = content.Load<SoundEffect>("Audio\\Waves\\explode");
+
             base.Initialize();
         }
 
@@ -93,6 +112,8 @@ namespace WindowsGame7
         {
             if (loadAllContent)
             {
+                lifeGraphics =
+                    content.Load<Texture2D>("Sprites\\cannon_01_small");
 
                 backgroundTexture =
                     content.Load<Texture2D>("Sprites\\background-space");
@@ -184,6 +205,14 @@ namespace WindowsGame7
             {
                 cannon.rotation += 0.1f;
             }
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                cannon.position.X -= 3f;
+            }
+            if (keyboardState.IsKeyDown(Keys.D))
+            {
+                cannon.position.X += 3f;
+            }
 #endif
             //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
             cannon.rotation = MathHelper.Clamp(
@@ -199,8 +228,8 @@ namespace WindowsGame7
             }
 
 #if !XBOX
-            if (keyboardState.IsKeyDown(Keys.Space) &&
-                previousKeyboardState.IsKeyUp(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Up) &&
+                previousKeyboardState.IsKeyUp(Keys.Up))
             {
                 FireCannonBall();
             }
@@ -221,6 +250,7 @@ namespace WindowsGame7
 
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// Updates enemy positions, kills them if
@@ -270,6 +300,7 @@ namespace WindowsGame7
             }
         }
 
+
         /// <summary>
         /// Places a cannon ball object into the game world
         /// by setting position and velocity
@@ -293,11 +324,13 @@ namespace WindowsGame7
                         (float)Math.Sin(cannon_rotation))
                     * 5.0f;
 
+                    cannonShootSound.Play();
                    
                     return;
                 }
             }
         }
+
 
         /// <summary>
         /// Places a cannon ball object into the game world
@@ -333,10 +366,14 @@ namespace WindowsGame7
                     normV.Normalize();
 
                     ball.velocity = normV * 2.0f;
+
+                    enemyShootSound.Play(0.5f);
+
                     return;
                 }
             }
         }
+
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls
@@ -389,12 +426,15 @@ namespace WindowsGame7
                             //counts as a score point.
                             score += 1;
 
+                            explodeSound.Play();
+
                             break;
                         }
                     }
                 }
             }
         }
+
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls
@@ -449,6 +489,7 @@ namespace WindowsGame7
                 }
             }
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -507,13 +548,9 @@ namespace WindowsGame7
                 scoreDrawPoint.Y * viewportRect.Height),
                 Color.Yellow);
 
-            //Construct a score string and draw to
-            //near top-right corner of the screen.
-            spriteBatch.DrawString(font,
-                "Lifes: " + lifes.ToString(),
-                new Vector2(lifesDrawPoint.X * viewportRect.Width,
-                lifesDrawPoint.Y * viewportRect.Height),
-                Color.Yellow);
+            //Draw life graphics
+            for (int i = 0; i < lifes; i++)
+                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 30 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
             if (lifes < 1)
                 spriteBatch.DrawString(font, "!!! GAME OVER !!!", new Vector2(viewportRect.Width / 2 - 85, viewportRect.Height / 2 - 20), Color.Red);
