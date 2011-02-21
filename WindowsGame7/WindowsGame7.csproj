@@ -85,6 +85,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameOverScreen.cs" />
+    <Compile Include="GamePlayScreen.cs" />
     <Compile Include="MenuChoice.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Menu.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="SpriteAnimation.cs" />
     <Compile Include="SpriteManager.cs" />
+    <Compile Include="StartScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

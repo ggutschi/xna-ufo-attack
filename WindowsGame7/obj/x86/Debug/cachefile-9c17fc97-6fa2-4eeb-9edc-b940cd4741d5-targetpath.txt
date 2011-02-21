@@ -10,3 +10,5 @@ Content\Audio\Waves\explode.xnb
 Content\Audio\Mp3s\music.xnb
 Content\Audio\Mp3s\music.wma
 Content\Sprites\enemy_01_damagedSprite.xnb
+Content\Sprites\StartScreen.xnb
+Content\Sprites\GameOverScreen.xnb
