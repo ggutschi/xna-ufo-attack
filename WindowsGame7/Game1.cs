@@ -68,6 +68,11 @@ namespace WindowsGame7
         SoundEffect cannonShootSound;
         SoundEffect explodeSound;
 
+        Menu pauseMenu;
+        Boolean paused = false; // is game paused or not
+        KeyboardState oldState;
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -149,6 +154,13 @@ namespace WindowsGame7
                 }
 
                 font = content.Load<SpriteFont>("Fonts\\GameFont");
+
+
+                pauseMenu = new Menu(Color.White, Color.LightBlue, content.Load<SpriteFont>("Fonts\\GameFont"), false);
+                //Menüpunkt hinzufügen
+                pauseMenu.AddMenuItem("Fortsetzen", MenuChoice.CONTINUE, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - 50, graphics.GraphicsDevice.Viewport.Height / 2 - 100));
+                pauseMenu.AddMenuItem("Beenden", MenuChoice.EXIT, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - 50, graphics.GraphicsDevice.Viewport.Height / 2 - 50));
+
             }
 
             //Create a Rectangle that represents the full
@@ -185,9 +197,8 @@ namespace WindowsGame7
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            bool forceAction = false;
+ 
 
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
@@ -213,44 +224,112 @@ namespace WindowsGame7
             {
                 cannon.position.X += 3f;
             }
-#endif
-            //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
-            cannon.rotation = MathHelper.Clamp(
-                cannon.rotation, -1f, 1f);
-
-            //Only fire cannon ball if player has pressed button
-            //this update loop - do not fire cannon ball if
-            //button is merely held down.
-            if (gamePadState.Buttons.A == ButtonState.Pressed &&
-                previousGamePadState.Buttons.A == ButtonState.Released)
+    
+            if (keyboardState.IsKeyDown(Keys.Escape) && !pauseMenu.isVisible())
             {
-                FireCannonBall();
+                BeginPause();
             }
 
-#if !XBOX
-            if (keyboardState.IsKeyDown(Keys.Up) &&
-                previousKeyboardState.IsKeyUp(Keys.Up))
-            {
-                FireCannonBall();
+            if (keyboardState.IsKeyDown(Keys.Down) && pauseMenu.isVisible() && !oldState.IsKeyDown(Keys.Down))
+            {                
+                pauseMenu.SelectNext();                     
             }
+
+            if (keyboardState.IsKeyDown(Keys.Up) && pauseMenu.isVisible() && !oldState.IsKeyDown(Keys.Up))
+            {               
+                pauseMenu.SelectPrev();
+                
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Enter) && pauseMenu.isVisible())
+            {
+                if (pauseMenu.GetSelectedItem().Equals(MenuChoice.CONTINUE))
+                {
+                    EndPause();
+                }
+
+                else if (pauseMenu.GetSelectedItem().Equals(MenuChoice.EXIT))
+                {
+                    this.Exit();
+                }
+            }
+
+            // save current keyboard state as oldstate (for slowing down key presses)
+            oldState = keyboardState;
+            
+
+      
+
 #endif
 
-            FireEnemyCannonBall();
 
-            UpdateCannonBalls();
-            UpdateEnemyCannonBalls();
-            UpdateEnemies();
+            // update game only if it´s not paused
+            if (!isGamePaused())
+            {
 
-            //Reset previous input states to current states
-            //for next Update call.
-            previousGamePadState = gamePadState;
+                //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
+                cannon.rotation = MathHelper.Clamp(
+                    cannon.rotation, -1f, 1f);
+
+                //Only fire cannon ball if player has pressed button
+                //this update loop - do not fire cannon ball if
+                //button is merely held down.
+                if (gamePadState.Buttons.A == ButtonState.Pressed &&
+                    previousGamePadState.Buttons.A == ButtonState.Released)
+                {
+                    FireCannonBall();
+                }
+
 #if !XBOX
-            previousKeyboardState = keyboardState;
+                if (keyboardState.IsKeyDown(Keys.Up) &&
+                    previousKeyboardState.IsKeyUp(Keys.Up))
+                {
+                    FireCannonBall();
+                }
 #endif
+
+                FireEnemyCannonBall();
+
+                UpdateCannonBalls();
+                UpdateEnemyCannonBalls();
+                UpdateEnemies();
+
+                //Reset previous input states to current states
+                //for next Update call.
+                previousGamePadState = gamePadState;
+#if !XBOX
+                previousKeyboardState = keyboardState;
+#endif
+
+            } // if !paused
+
+            
+            // update also menu  
+            pauseMenu.Update(gameTime);
 
             base.Update(gameTime);
         }
 
+
+        // enable pause of game
+        public void BeginPause()
+        {
+            paused = true;
+            pauseMenu.setVisibilty(true);
+        }
+
+        // disable pause of game
+        public void EndPause()
+        {
+            paused = false;
+            pauseMenu.setVisibilty(false);
+        }
+
+        // return state of game (paused or not)
+        public bool isGamePaused()
+        {
+            return paused;
+        }
 
         /// <summary>
         /// Updates enemy positions, kills them if
@@ -555,7 +634,11 @@ namespace WindowsGame7
             if (lifes < 1)
                 spriteBatch.DrawString(font, "!!! GAME OVER !!!", new Vector2(viewportRect.Width / 2 - 85, viewportRect.Height / 2 - 20), Color.Red);
 
-            spriteBatch.End();
+            // draw menu
+            pauseMenu.Draw(spriteBatch, false);
+           
+            spriteBatch.End();          
+
 
             base.Draw(gameTime);
         }

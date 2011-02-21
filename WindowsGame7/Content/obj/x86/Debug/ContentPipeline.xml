@@ -8,7 +8,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\GameFont.xnb</Output>
-      <Time>2011-02-16T23:09:20.6153919+01:00</Time>
+      <Time>2009-11-06T04:01:16+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannonball.tga</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
-      <Time>2011-02-16T23:09:20.5453879+01:00</Time>
+      <Time>2009-11-06T04:01:26+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\background-space.tga</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background-space.xnb</Output>
-      <Time>2011-02-16T23:09:20.547388+01:00</Time>
+      <Time>2011-02-16T18:39:48.0067506+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\enemy_01.tga</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01.xnb</Output>
-      <Time>2011-02-16T23:09:20.5543884+01:00</Time>
+      <Time>2011-02-16T21:58:53.2565551+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannon_01.tga</Source>
@@ -44,7 +44,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01.xnb</Output>
-      <Time>2011-02-16T23:09:20.5493881+01:00</Time>
+      <Time>2011-02-16T21:01:13.8736897+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_01_small.tga</Source>
+      <Name>Sprites\cannon_01_small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_small.xnb</Output>
+      <Time>2011-02-21T09:29:33.8333645+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Waves\cannonshoot.wav</Source>
@@ -53,7 +62,7 @@
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\cannonshoot.xnb</Output>
-      <Time>2011-02-20T15:29:24.8117999+01:00</Time>
+      <Time>2011-02-21T09:29:46.919113+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Waves\enemyshoot.wav</Source>
@@ -62,7 +71,16 @@
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\enemyshoot.xnb</Output>
-      <Time>2011-02-20T15:39:51.8016617+01:00</Time>
+      <Time>2011-02-21T09:29:46.9391141+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\explode.wav</Source>
+      <Name>Audio\Waves\explode</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\explode.xnb</Output>
+      <Time>2011-02-21T09:29:46.9691159+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Mp3s\music.mp3</Source>
@@ -72,25 +90,7 @@
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.xnb</Output>
       <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
-      <Time>2011-02-20T16:56:08.572438+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Audio\Waves\explode.wav</Source>
-      <Name>Audio\Waves\explode</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\explode.xnb</Output>
-      <Time>2011-02-20T18:12:50.8866753+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\cannon_01_small.tga</Source>
-      <Name>Sprites\cannon_01_small</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_small.xnb</Output>
-      <Time>2011-02-20T18:43:12.6198725+01:00</Time>
+      <Time>2011-02-21T09:29:44.033948+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -104,28 +104,28 @@
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2009-05-14T12:13:52+02:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2009-05-14T12:13:52+02:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2009-05-14T12:13:52+02:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2009-05-14T12:13:52+02:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
         <Value>2009-05-14T12:13:52+02:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-01-20T12:17:56.7796627+01:00</Value>
+        <Value>2011-01-20T13:43:29.95563+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
