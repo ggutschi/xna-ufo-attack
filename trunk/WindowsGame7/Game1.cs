@@ -535,7 +535,7 @@ namespace WindowsGame7
                             content.Load<Texture2D>("Sprites\\enemy_01_damagedSprite"), 4);
                             enemyAnim.Position = new Vector2(enemy.position.X, enemy.position.Y);
                             enemyAnim.IsLooping = false;
-                            enemyAnim.FramesPerSecond = 30;
+                            enemyAnim.FramesPerSecond = 20;
                             damagedEnemiesSprites.Add(enemyAnim);               
 
                             explodeSound.Play();
