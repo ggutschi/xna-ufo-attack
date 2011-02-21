@@ -3,9 +3,9 @@ Content\Sprites\cannonball.xnb
 Content\Sprites\background-space.xnb
 Content\Sprites\enemy_01.xnb
 Content\Sprites\cannon_01.xnb
+Content\Sprites\cannon_01_small.xnb
 Content\Audio\Waves\cannonshoot.xnb
 Content\Audio\Waves\enemyshoot.xnb
+Content\Audio\Waves\explode.xnb
 Content\Audio\Mp3s\music.xnb
 Content\Audio\Mp3s\music.wma
-Content\Audio\Waves\explode.xnb
-Content\Sprites\cannon_01_small.xnb
