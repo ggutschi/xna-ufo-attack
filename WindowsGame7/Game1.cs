@@ -50,6 +50,10 @@ namespace WindowsGame7
         const float minEnemyVelocity = 1.0f;
         Random random = new Random();
         GameObject[] enemies;
+        
+        // lists for animating damaged enemies
+        List<GameObject> damagedEnemies = new List<GameObject>();
+        List<SpriteAnimation> damagedEnemiesSprites =  new List<SpriteAnimation>();
 
         GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
@@ -72,6 +76,7 @@ namespace WindowsGame7
         Boolean paused = false; // is game paused or not
         KeyboardState oldState;
 
+        
 
         public Game1()
         {
@@ -146,6 +151,7 @@ namespace WindowsGame7
                         content.Load<Texture2D>("Sprites\\enemy_01"));
                 }
 
+               
                 enemyCannonBalls = new GameObject[maxEnemyCannonBalls];
                 for (int i = 0; i < maxEnemyCannonBalls; i++)
                 {
@@ -197,8 +203,6 @@ namespace WindowsGame7
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            bool forceAction = false;
- 
 
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
@@ -290,9 +294,11 @@ namespace WindowsGame7
 
                 FireEnemyCannonBall();
 
-                UpdateCannonBalls();
+                UpdateCannonBalls(gameTime);
                 UpdateEnemyCannonBalls();
                 UpdateEnemies();
+                UpdateDamagedEnemies(gameTime);
+                               
 
                 //Reset previous input states to current states
                 //for next Update call.
@@ -453,13 +459,31 @@ namespace WindowsGame7
             }
         }
 
+        public void UpdateDamagedEnemies(GameTime gameTime)
+        {
+            // remove all damaged enemies when the damage animation is already over
+            SpriteAnimation[] newDamagedEnemies = new SpriteAnimation[damagedEnemiesSprites.Count];
+            damagedEnemiesSprites.CopyTo(newDamagedEnemies, 0);
+            foreach (SpriteAnimation spriteAnim in newDamagedEnemies)
+            {
+                if (spriteAnim.isAnimationOver())
+                    damagedEnemiesSprites.Remove(spriteAnim);                
+            }
+
+            // draw damaged enemies
+            foreach (SpriteAnimation spriteAnim in damagedEnemiesSprites)
+            {
+                spriteAnim.Update(gameTime);
+            }           
+        }
+
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls
         /// that move off screen edges, and tests intersection
         /// between cannon balls and enemies
         /// </summary>
-        public void UpdateCannonBalls()
+        public void UpdateCannonBalls(GameTime gameTime)
         {
             foreach (GameObject ball in cannonBalls)
             {
@@ -504,6 +528,15 @@ namespace WindowsGame7
                             //Hitting an enemy with a cannon ball
                             //counts as a score point.
                             score += 1;
+                            damagedEnemies.Add(enemy);
+
+                             // load sprite animation for damaged enemies
+                            SpriteAnimation enemyAnim = new SpriteAnimation(
+                            content.Load<Texture2D>("Sprites\\enemy_01_damagedSprite"), 4);
+                            enemyAnim.Position = new Vector2(enemy.position.X, enemy.position.Y);
+                            enemyAnim.IsLooping = false;
+                            enemyAnim.FramesPerSecond = 30;
+                            damagedEnemiesSprites.Add(enemyAnim);               
 
                             explodeSound.Play();
 
@@ -636,10 +669,14 @@ namespace WindowsGame7
 
             // draw menu
             pauseMenu.Draw(spriteBatch, false);
+
+            // draw damaged enemies
+            foreach (SpriteAnimation spriteAnim in damagedEnemiesSprites)
+            {
+                spriteAnim.Draw(spriteBatch);
+            }
            
-            spriteBatch.End();          
-
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
