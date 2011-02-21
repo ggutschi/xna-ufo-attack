@@ -92,6 +92,15 @@
       <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
       <Time>2011-02-21T09:29:44.033948+01:00</Time>
     </Item>
+    <Item>
+      <Source>Sprites\enemy_01_damagedSprite.tga</Source>
+      <Name>Sprites\enemy_01_damagedSprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01_damagedSprite.xnb</Output>
+      <Time>2011-02-21T15:45:05.9788382+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
