@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="GameOverScreen.cs" />
     <Compile Include="GamePlayScreen.cs" />
+    <Compile Include="HighScoreScreen.cs" />
     <Compile Include="MenuChoice.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Menu.cs" />

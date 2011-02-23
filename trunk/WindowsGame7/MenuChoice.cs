@@ -17,6 +17,6 @@ namespace WindowsGame7
     // enum for menu choice
     public enum MenuChoice
     {
-        CONTINUE = 'C', EXIT = 'E'
+        CONTINUE = 'C', HIGHSCORE = 'H', EXIT = 'E'
     }
 }
