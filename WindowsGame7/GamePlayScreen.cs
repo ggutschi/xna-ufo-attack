@@ -90,9 +90,13 @@ namespace WindowsGame7
 
             for (int i = 0; i < maxCannonBalls; i++)
             {
-                cannonBalls[i] = new GameObject(
+                /*cannonBalls[i] = new GameObject(
                     game.getContentManager().Load<Texture2D>(
                     "Sprites\\cannonball"));
+                 */
+                cannonBalls[i] = new GameObject(
+                    game.getContentManager().Load<Texture2D>(
+                    "Sprites\\cannon_laser"));
             }
 
             enemies = new GameObject[maxEnemies];
@@ -130,21 +134,23 @@ namespace WindowsGame7
         public void Update(GameTime gameTime)
         {
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-            cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
+            
+            // cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
 
             //Restrict keyboard code to Windows-only using
             //#if !XBOX.
 #if !XBOX
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.Left))
+            /*if (keyboardState.IsKeyDown(Keys.Left))
             {
                 cannon.rotation -= 0.1f;
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
                 cannon.rotation += 0.1f;
-            }
+            }*/
+
             if (keyboardState.IsKeyDown(Keys.A) && cannon.position.X >= 0)
             {
                 cannon.position.X -= 3f;
@@ -179,7 +185,7 @@ namespace WindowsGame7
 
                 else if (pauseMenu.GetSelectedItem().Equals(MenuChoice.EXIT))
                 {
-                    game.Exit();
+                    game.ExitCurrentGame();
                 }
             }
 
@@ -194,8 +200,9 @@ namespace WindowsGame7
             {
 
                 //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
-                cannon.rotation = MathHelper.Clamp(
-                    cannon.rotation, -1f, 1f);
+                
+                //cannon.rotation = MathHelper.Clamp(
+                //    cannon.rotation, -1f, 1f);
 
                 //Only fire cannon ball if player has pressed button
                 //this update loop - do not fire cannon ball if
@@ -299,16 +306,18 @@ namespace WindowsGame7
                 {
                     ball.alive = true;
                     ball.position = cannon.position;
+                    
+                    
 
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
                     //then scale by 5 to speed up the ball.
                     //Console.WriteLine(cannon.rotation);
-                    float cannon_rotation = cannon.rotation - 1.6f;
+                    float cannon_rotation = cannon.rotation - (float)Math.PI / 2;
                     ball.velocity = new Vector2(
                         (float)Math.Cos(cannon_rotation),
                         (float)Math.Sin(cannon_rotation))
-                    * 5.0f;
+                    * 20.0f;
 
                     cannonShootSound.Play();
 
@@ -548,10 +557,10 @@ namespace WindowsGame7
             //Construct a score string and draw to
             //near top-left corner of the screen.
             spriteBatch.DrawString(font,
-                "Score: " + score.ToString(),
+                "SCORE" + "\n" + score.ToString("#00000"),
                 new Vector2(scoreDrawPoint.X * viewportRect.Width,
                 scoreDrawPoint.Y * viewportRect.Height),
-                Color.Yellow);
+                Color.Turquoise);
 
             //Draw life graphics
             for (int i = 0; i < lifes; i++)

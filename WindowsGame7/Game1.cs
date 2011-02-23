@@ -35,6 +35,7 @@ namespace WindowsGame7
         {
             StartScreen,
             GamePlayScreen,
+            HighScoreScreen,
             GameOverScreen
         }
 
@@ -42,11 +43,17 @@ namespace WindowsGame7
         Screen currentScreen;
         GamePlayScreen gamePlayScreen;
         GameOverScreen gameOverScreen;
+        HighScoreScreen highScoreScreen;
         
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            // set default screen size to 1024x768
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
+            graphics.ApplyChanges();
 
             //ContentManager constructed with optional
             //second argument, looks in "Content" folder
@@ -62,7 +69,7 @@ namespace WindowsGame7
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            startScreen = new StartScreen(this);
+            startScreen = new StartScreen(this, false);
             currentScreen = Screen.StartScreen;
 
             base.LoadContent();
@@ -124,7 +131,7 @@ namespace WindowsGame7
             {
                 case Screen.StartScreen:
                     if (startScreen != null)
-                        startScreen.Update();
+                        startScreen.Update(gameTime);
                     break;
                 case Screen.GamePlayScreen:
                     if (gamePlayScreen != null)
@@ -133,6 +140,10 @@ namespace WindowsGame7
                 case Screen.GameOverScreen:
                     if (gameOverScreen != null)
                         gameOverScreen.Update();
+                    break;
+                case Screen.HighScoreScreen:
+                    if (highScoreScreen != null)
+                        highScoreScreen.Update();
                     break;
             }
             base.Update(gameTime);    
@@ -163,6 +174,10 @@ namespace WindowsGame7
                     if (gameOverScreen != null)
                         gameOverScreen.Draw(spriteBatch);
                     break;
+                case Screen.HighScoreScreen:
+                    if (highScoreScreen != null)
+                        highScoreScreen.Draw(spriteBatch);
+                    break;
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -186,9 +201,19 @@ namespace WindowsGame7
             
         }
 
-        public void ExitGame()
+        public void ShowHighScore()
         {
-            this.Exit();
+            currentScreen = Screen.HighScoreScreen;
+            highScoreScreen = new HighScoreScreen(this);
+            startScreen = null;
+        }
+
+        public void ExitCurrentGame()
+        {
+            startScreen = new StartScreen(this, true);
+            currentScreen = Screen.StartScreen;
+            gamePlayScreen = null;
+            highScoreScreen = null;
         }
     }
 

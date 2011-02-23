@@ -8,18 +8,25 @@ using Microsoft.Xna.Framework.Input;
 
 namespace WindowsGame7
 {
-    public class GameOverScreen
+    public class HighScoreScreen
     {
         private Texture2D texture;
         private Game1 game;
         private KeyboardState lastState;
+        SpriteFont font;
+        Rectangle viewportRect;
 
-
-        public GameOverScreen(Game1 game)
+        public HighScoreScreen(Game1 game)
         {
             this.game = game;
-            texture = game.getContentManager().Load<Texture2D>("Sprites\\game-over");
+            texture = game.getContentManager().Load<Texture2D>("Sprites\\start-screen");
             lastState = Keyboard.GetState();
+            font = game.getContentManager().Load<SpriteFont>("Fonts\\GameFont");
+            //Create a Rectangle that represents the full
+            //drawable area of the game screen.
+            viewportRect = new Rectangle(0, 0,
+                game.GraphicsDevice.Viewport.Width,
+                game.GraphicsDevice.Viewport.Height);
         }
 
         public void Update()
@@ -36,8 +43,14 @@ namespace WindowsGame7
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (texture != null)
-                spriteBatch.Draw(texture, new Vector2(0f, 0f), Color.White);
+
+            spriteBatch.Draw(texture,viewportRect,
+               Color.White);
+
+            spriteBatch.DrawString(font,
+               "ufokiller " + "       959 points",
+               new Vector2(100,100),
+               Color.Yellow);
         }
     }
 }

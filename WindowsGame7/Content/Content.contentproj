@@ -112,15 +112,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\StartScreen.jpg">
-      <Name>StartScreen</Name>
+    <Compile Include="Sprites\GameOverScreen.jpg">
+      <Name>GameOverScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\GameOverScreen.jpg">
-      <Name>GameOverScreen</Name>
+    <Compile Include="Sprites\cannon_laser.tga">
+      <Name>cannon_laser</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\start-screen.tga">
+      <Name>start-screen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\game-over.tga">
+      <Name>game-over</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

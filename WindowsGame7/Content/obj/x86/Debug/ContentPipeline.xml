@@ -8,7 +8,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\GameFont.xnb</Output>
-      <Time>2009-11-06T04:01:16+01:00</Time>
+      <Time>2011-02-22T21:13:30.0913975+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannonball.tga</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
-      <Time>2009-11-06T04:01:26+01:00</Time>
+      <Time>2011-02-22T22:41:58.7920379+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\background-space.tga</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background-space.xnb</Output>
-      <Time>2011-02-16T18:39:48.0067506+01:00</Time>
+      <Time>2011-02-22T23:48:52+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\enemy_01.tga</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01.xnb</Output>
-      <Time>2011-02-16T21:01:13.8736897+01:00</Time>
+      <Time>2011-02-22T22:34:29+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannon_01_small.tga</Source>
@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_small.xnb</Output>
-      <Time>2011-02-21T09:29:33.8333645+01:00</Time>
+      <Time>2011-02-22T23:42:30.0457337+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Waves\cannonshoot.wav</Source>
@@ -99,16 +99,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01_damagedSprite.xnb</Output>
-      <Time>2011-02-21T15:45:05.9788382+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\StartScreen.jpg</Source>
-      <Name>Sprites\StartScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\StartScreen.xnb</Output>
-      <Time>2011-02-21T17:16:28.2344052+01:00</Time>
+      <Time>2011-02-22T22:45:25.8408804+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\GameOverScreen.jpg</Source>
@@ -118,6 +109,33 @@
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\GameOverScreen.xnb</Output>
       <Time>2011-02-21T17:20:55.1756734+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_laser.tga</Source>
+      <Name>Sprites\cannon_laser</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_laser.xnb</Output>
+      <Time>2011-02-22T22:19:26.1676722+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\start-screen.tga</Source>
+      <Name>Sprites\start-screen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\start-screen.xnb</Output>
+      <Time>2011-02-22T23:56:30+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\game-over.tga</Source>
+      <Name>Sprites\game-over</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\game-over.xnb</Output>
+      <Time>2011-02-23T00:12:40+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
