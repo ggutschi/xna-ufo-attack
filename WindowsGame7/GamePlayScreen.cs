@@ -490,8 +490,8 @@ namespace WindowsGame7
                     //Construct a collision rectangle around cannon, and
                     //check for an intersection.
                     Rectangle cannonRect = new Rectangle(
-                        (int)cannon.position.X,
-                        (int)cannon.position.Y,
+                        (int)cannon.position.X-cannon.sprite.Width/2,
+                        (int)cannon.position.Y-cannon.sprite.Height/2,
                         cannon.sprite.Width,
                         cannon.sprite.Height);
 
@@ -601,7 +601,31 @@ namespace WindowsGame7
             if (damagedCannon != null && damagedCannon.isAnimationOver())
                 damagedCannon = null;
 
+            
+            // test rectangle to check collission-area
+            /*Texture2D rectangle;
+            rectangle = CreateRectangle(cannon.sprite.Width, cannon.sprite.Height);
+            spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-cannon.sprite.Width/2,cannon.position.Y-cannon.sprite.Height/2), Color.White);
+            */
+
         }
+
+        /**
+         * test routine for creating a rectangle in order to check collision-areas
+        public Texture2D CreateRectangle(int width, int height)
+        {
+            Texture2D rectangleTexture = new Texture2D(game.GraphicsDevice, width, height, 1, TextureUsage.None,
+            SurfaceFormat.Color);// create the rectangle texture, ,but it will have no color! lets fix that
+            Color[] color = new Color[width * height];//set the color to the amount of pixels
+
+            for (int i = 0; i < color.Length; i++)//loop through all the colors setting them to whatever values we want
+            {
+                color[i] = Color.Red;
+            }
+            rectangleTexture.SetData(color);//set the color data on the texture
+            return rectangleTexture;
+        }
+        **/
 
         // enable pause of game
         public void BeginPause()
