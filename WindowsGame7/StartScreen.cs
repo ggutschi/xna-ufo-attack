@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -19,9 +21,25 @@ namespace WindowsGame7
 
         KeyboardState oldState;
 
+        Song music;
+
+
         public StartScreen(Game1 game, bool returnFromScreen)
         {
             this.game = game;
+
+            // load music only once
+            if (!returnFromScreen)
+            {
+                music = game.getContentManager().Load<Song>("Audio\\Mp3s\\music");
+                MediaPlayer.Play(music);
+                MediaPlayer.IsRepeating = true;                
+            }
+
+            // set game play sound to a low level
+            MediaPlayer.Volume = (float)0.3;
+            
+           
             texture = game.getContentManager().Load<Texture2D>("Sprites\\start-screen");
             this.returnFromScreen = returnFromScreen;
             //lastState = Keyboard.GetState();
@@ -40,6 +58,13 @@ namespace WindowsGame7
 
             KeyboardState keyboardState = Keyboard.GetState();
 
+            if (returnFromScreen)
+            {
+                oldState = keyboardState;
+                returnFromScreen = false;
+            }
+                
+
 
             if (keyboardState.IsKeyDown(Keys.Down) && !oldState.IsKeyDown(Keys.Down))
             {
@@ -54,9 +79,12 @@ namespace WindowsGame7
 
             if (keyboardState.IsKeyDown(Keys.Enter) && !oldState.IsKeyDown(Keys.Enter))
             {
+                
                 if (startMenu.GetSelectedItem().Equals(MenuChoice.CONTINUE))
                 {
-                    if (!returnFromScreen)
+                    Console.WriteLine(oldState.IsKeyDown(Keys.Enter));
+                    oldState = keyboardState;
+                    //if (!returnFromScreen)
                         game.StartGame();
 
                     
@@ -64,7 +92,7 @@ namespace WindowsGame7
 
                 else if (startMenu.GetSelectedItem().Equals(MenuChoice.HIGHSCORE))
                 {
-                    if (!returnFromScreen)
+                    //if (!returnFromScreen)
                         game.ShowHighScore();
 
                     

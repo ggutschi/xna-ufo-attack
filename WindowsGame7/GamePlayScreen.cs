@@ -13,8 +13,7 @@ namespace WindowsGame7
     class GamePlayScreen
     {
         private Game1 game;
-        GraphicsDeviceManager graphics;
-
+        
         Texture2D backgroundTexture;
         Rectangle viewportRect;
 
@@ -40,6 +39,9 @@ namespace WindowsGame7
         List<GameObject> damagedEnemies = new List<GameObject>();
         List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>();
 
+        // sprite for animating damaged cannon
+        SpriteAnimation damagedCannon;
+
         GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
         int score;
@@ -51,7 +53,6 @@ namespace WindowsGame7
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
         Vector2 lifesDrawPoint = new Vector2(0.80f, 0.05f);
 
-        Song music;
 
         SoundEffect enemyShootSound;
         SoundEffect cannonShootSound;
@@ -64,15 +65,11 @@ namespace WindowsGame7
         public GamePlayScreen(Game1 game)
         {
             this.game = game;
-            music = game.getContentManager().Load<Song>("Audio\\Mp3s\\music");
             
-            MediaPlayer.Play(music);
-            MediaPlayer.IsRepeating = true;
-
             enemyShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\enemyshoot");
             cannonShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\cannonshoot");
             explodeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\explode");
-
+                       
             lifeGraphics =
                     game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
 
@@ -82,7 +79,7 @@ namespace WindowsGame7
             cannon = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01"));
 
-            //Position is near the bottom-left of the screen.
+           
             cannon.position = new Vector2(
                 game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height - 30);
 
@@ -128,6 +125,9 @@ namespace WindowsGame7
                 game.GraphicsDevice.Viewport.Width,
                 game.GraphicsDevice.Viewport.Height);
 
+            // increase game play sound to 80%
+            MediaPlayer.Volume = 0.8f;
+
         }
 
 
@@ -136,28 +136,17 @@ namespace WindowsGame7
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             
             // cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
-
-            //Restrict keyboard code to Windows-only using
-            //#if !XBOX.
-#if !XBOX
             KeyboardState keyboardState = Keyboard.GetState();
-
-            /*if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                cannon.rotation -= 0.1f;
-            }
-            if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                cannon.rotation += 0.1f;
-            }*/
 
             if (keyboardState.IsKeyDown(Keys.A) && cannon.position.X >= 0)
             {
-                cannon.position.X -= 3f;
+                if (damagedCannon == null || damagedCannon.isAnimationOver()) // moving of cannon is only allowed if it gets not hitted
+                    cannon.position.X -= 3f;
             }
             if (keyboardState.IsKeyDown(Keys.D) && cannon.position.X <= viewportRect.Width)
             {
-                cannon.position.X += 3f;
+                if (damagedCannon == null || damagedCannon.isAnimationOver()) // moving of cannon is only allowed if it gets not hitted
+                    cannon.position.X += 3f;
             }
 
             if (keyboardState.IsKeyDown(Keys.Escape) && !pauseMenu.isVisible())
@@ -189,11 +178,8 @@ namespace WindowsGame7
                 }
             }
 
-            // save current keyboard state as oldstate (for slowing down key presses)
+            // save current keyboard state as oldstate
             oldState = keyboardState;
-
-#endif
-
 
             // update game only if it´s not paused
             if (!isGamePaused())
@@ -227,6 +213,8 @@ namespace WindowsGame7
                 UpdateEnemyCannonBalls();
                 UpdateEnemies();
                 UpdateDamagedEnemies(gameTime);
+                UpdateDamagedCannon(gameTime);
+                
 
 
                 //Reset previous input states to current states
@@ -387,6 +375,12 @@ namespace WindowsGame7
             }
         }
 
+        public void UpdateDamagedCannon(GameTime gameTime)
+        {
+            if (damagedCannon != null)
+                damagedCannon.Update(gameTime);
+        }
+
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls
@@ -506,6 +500,15 @@ namespace WindowsGame7
                         if (lifes > 0)
                             lifes--;
 
+                        // display hitted cannon
+                        // load sprite animation for damaged enemies
+                        damagedCannon = new SpriteAnimation(
+                        game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_damagedSprite"), 3);
+                        damagedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+                        damagedCannon.IsLooping = false;
+                        damagedCannon.FramesPerSecond = 20;
+                        explodeSound.Play();                       
+
                         break;
                     }
                 }
@@ -566,9 +569,8 @@ namespace WindowsGame7
             for (int i = 0; i < lifes; i++)
                 spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 30 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
-            if (lifes < 1)
-                //spriteBatch.DrawString(font, "!!! GAME OVER !!!", new Vector2(viewportRect.Width / 2 - 85, viewportRect.Height / 2 - 20), Color.Red);
-                game.showGameOver();
+            //if (lifes < 1)                
+                //game.showGameOver();
 
             // draw menu
             pauseMenu.Draw(spriteBatch, false);
@@ -578,6 +580,14 @@ namespace WindowsGame7
             {
                 spriteAnim.Draw(spriteBatch);
             }
+
+            // draw damaged cannon
+            if (damagedCannon != null)
+                damagedCannon.Draw(spriteBatch);
+
+            // reset cannon if animation is over
+            if (damagedCannon != null && damagedCannon.isAnimationOver())
+                damagedCannon = null;
 
         }
 

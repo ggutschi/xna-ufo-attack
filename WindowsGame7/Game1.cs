@@ -26,10 +26,10 @@ namespace WindowsGame7
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        ContentManager content;
+        private GraphicsDeviceManager graphics;
+        private ContentManager content;
 
-        SpriteBatch spriteBatch;
+        private SpriteBatch spriteBatch;
 
         enum Screen
         {
@@ -39,13 +39,13 @@ namespace WindowsGame7
             GameOverScreen
         }
 
-        StartScreen startScreen;
-        Screen currentScreen;
-        GamePlayScreen gamePlayScreen;
-        GameOverScreen gameOverScreen;
-        HighScoreScreen highScoreScreen;
-        
+        private StartScreen startScreen;
+        private Screen currentScreen;
+        private GamePlayScreen gamePlayScreen;
+        private GameOverScreen gameOverScreen;
+        private HighScoreScreen highScoreScreen;
 
+      
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -59,6 +59,7 @@ namespace WindowsGame7
             //second argument, looks in "Content" folder
             //on all calls to .Load.
             content = new ContentManager(Services, "Content");
+            
         }
 
         public ContentManager getContentManager()
@@ -71,7 +72,7 @@ namespace WindowsGame7
             spriteBatch = new SpriteBatch(GraphicsDevice);
             startScreen = new StartScreen(this, false);
             currentScreen = Screen.StartScreen;
-
+            
             base.LoadContent();
         }
 
