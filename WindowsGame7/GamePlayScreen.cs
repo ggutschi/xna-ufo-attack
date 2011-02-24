@@ -20,20 +20,19 @@ namespace WindowsGame7
         GameObject cannon;
         const int maxCannonBalls = 3;
         GameObject[] cannonBalls;
-
-        const int maxEnemyCannonBalls = 3;
-        GameObject[] enemyCannonBalls;
+        GameObject[] enemyCannonBalls = new GameObject[0];
 
         GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
         KeyboardState previousKeyboardState = Keyboard.GetState();
 
-        const int maxEnemies = 3;
         const float maxEnemyHeight = 0.1f;
         const float minEnemyHeight = 0.5f;
         const float maxEnemyVelocity = 5.0f;
         const float minEnemyVelocity = 1.0f;
         Random random = new Random();
-        GameObject[] enemies;
+        GameObject[] enemies = new GameObject[0];
+
+        Level currentLevel;
 
         // lists for animating damaged enemies
         List<GameObject> damagedEnemies = new List<GameObject>();
@@ -44,6 +43,7 @@ namespace WindowsGame7
 
         GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
+        int lastScore;
         int score;
 
         int lifes = 5;
@@ -51,6 +51,7 @@ namespace WindowsGame7
 
         SpriteFont font;
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
+        Vector2 levelDrawPoint = new Vector2(0.05f, 0.1f);
         Vector2 lifesDrawPoint = new Vector2(0.80f, 0.05f);
 
 
@@ -96,20 +97,9 @@ namespace WindowsGame7
                     "Sprites\\cannon_laser"));
             }
 
-            enemies = new GameObject[maxEnemies];
-            for (int i = 0; i < maxEnemies; i++)
-            {
-                enemies[i] = new GameObject(
-                    game.getContentManager().Load<Texture2D>("Sprites\\enemy_01"));
-            }
+            currentLevel = new Level(game);
 
-
-            enemyCannonBalls = new GameObject[maxEnemyCannonBalls];
-            for (int i = 0; i < maxEnemyCannonBalls; i++)
-            {
-                enemyCannonBalls[i] = new GameObject(
-                    game.getContentManager().Load<Texture2D>("Sprites\\cannonball"));
-            }
+            currentLevel.initLevel(ref enemies, ref enemyCannonBalls);
 
             font = game.getContentManager().Load<SpriteFont>("Fonts\\GameFont");
 
@@ -216,6 +206,7 @@ namespace WindowsGame7
                 UpdateDamagedCannon(gameTime);
                 
 
+                UpdateLevel();
 
                 //Reset previous input states to current states
                 //for next Update call.
@@ -231,6 +222,18 @@ namespace WindowsGame7
             pauseMenu.Update(gameTime);
 
 
+        }
+        
+
+        /// <summary>
+        /// Increases the level if score is high enough.
+        /// </summary>
+        public void UpdateLevel()
+        {
+            if (score % 10 == 0 && score != lastScore)
+                currentLevel.increaseLevel(ref enemies, ref enemyCannonBalls);
+
+            lastScore = score;
         }
 
         /// <summary>
@@ -332,7 +335,7 @@ namespace WindowsGame7
 
                     do
                     {
-                        enemyToShoot = enemies[random.Next(maxEnemyCannonBalls)];
+                        enemyToShoot = enemies[random.Next(currentLevel.MaxEnemies)];
                     } while (enemyToShoot == lastEnemyShooted);
 
                     lastEnemyShooted = enemyToShoot;
@@ -341,14 +344,14 @@ namespace WindowsGame7
 
                     //Determine velocity using vertical and horizontal
                     //distance between enemy and cannon
-                    //then scale by 3 to speed up the ball.
+                    //then scale by currentLevel.EnemyCannonSpeed to speed up the ball.
                     Vector2 normV = new Vector2(
                         cannon.position.X - ball.position.X,
                         cannon.position.Y - ball.position.Y);
 
                     normV.Normalize();
 
-                    ball.velocity = normV * 2.0f;
+                    ball.velocity = normV * currentLevel.EnemyCannonSpeed;
 
                     enemyShootSound.Play(0.5f);
 
@@ -472,6 +475,7 @@ namespace WindowsGame7
                         (int)ball.position.Y)))
                     {
                         ball.alive = false;
+
                         continue;
                     }
 
@@ -565,9 +569,17 @@ namespace WindowsGame7
                 scoreDrawPoint.Y * viewportRect.Height),
                 Color.Turquoise);
 
+            //Construct a level string and draw to
+            //near top-left corner of the screen.
+            spriteBatch.DrawString(font,
+                "Level: " + currentLevel.ToString(),
+                new Vector2(levelDrawPoint.X * viewportRect.Width,
+                levelDrawPoint.Y * viewportRect.Height),
+                Color.Yellow);
+
             //Draw life graphics
             for (int i = 0; i < lifes; i++)
-                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 30 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
+                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 25 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
             //if (lifes < 1)                
                 //game.showGameOver();
