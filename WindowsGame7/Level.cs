@@ -12,7 +12,7 @@ namespace WindowsGame7
         int level = 1;
         int maxEnemies = 2;
         int maxEnemyCannonBalls = 1;
-        float enemyCannonSpeed = 1f;
+        float enemyCannonSpeed = 1.6f;
 
         public Level(Game1 game)
         {
@@ -59,9 +59,9 @@ namespace WindowsGame7
             initLevel(ref enemies, ref enemyCannonBalls);
         }
 
-        public override string ToString()
+        public string ToString(String format)
         {
-            return this.level.ToString();
+            return this.level.ToString(format);
         }
 
         public void initLevel(ref GameObject[] enemies, ref GameObject[] enemyCannonBalls)

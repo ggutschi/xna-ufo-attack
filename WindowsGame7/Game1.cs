@@ -31,6 +31,8 @@ namespace WindowsGame7
 
         private SpriteBatch spriteBatch;
 
+        public List<Highscore> highscores;
+
         enum Screen
         {
             StartScreen,
@@ -112,11 +114,8 @@ namespace WindowsGame7
         {
             if (unloadAllContent)
             {
-                // TODO: Unload any ResourceManagementMode.Automatic content
                 content.Unload();
             }
-
-            // TODO: Unload any ResourceManagementMode.Manual content
         }
 
 
@@ -149,6 +148,7 @@ namespace WindowsGame7
             }
             base.Update(gameTime);    
         }   
+
 
 
         /// <summary>
@@ -193,9 +193,9 @@ namespace WindowsGame7
             startScreen = null;
         }
 
-        public void showGameOver()
+        public void showGameOver(int score)
         {
-            gameOverScreen = new GameOverScreen(this);
+            gameOverScreen = new GameOverScreen(this, score);
             currentScreen = Screen.GameOverScreen;
             
             gamePlayScreen = null;

@@ -12,13 +12,15 @@ namespace WindowsGame7
 {
     class GamePlayScreen
     {
+        const float cannonSpeed = 5f;
+
         private Game1 game;
         
         Texture2D backgroundTexture;
         Rectangle viewportRect;
 
         GameObject cannon;
-        const int maxCannonBalls = 3;
+        const int maxCannonBalls = 2;
         GameObject[] cannonBalls;
         GameObject[] enemyCannonBalls = new GameObject[0];
 
@@ -29,7 +31,9 @@ namespace WindowsGame7
         const float minEnemyHeight = 0.5f;
         const float maxEnemyVelocity = 5.0f;
         const float minEnemyVelocity = 1.0f;
+
         Random random = new Random();
+
         GameObject[] enemies = new GameObject[0];
 
         Level currentLevel;
@@ -46,12 +50,13 @@ namespace WindowsGame7
         int lastScore;
         int score;
 
-        int lifes = 5;
+        int lifes = 1;
         Texture2D lifeGraphics;
 
         SpriteFont font;
+
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
-        Vector2 levelDrawPoint = new Vector2(0.05f, 0.1f);
+        Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);
         Vector2 lifesDrawPoint = new Vector2(0.80f, 0.05f);
 
 
@@ -128,15 +133,15 @@ namespace WindowsGame7
             // cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.A) && cannon.position.X >= 0)
+            if (keyboardState.IsKeyDown(Keys.Left) && cannon.position.X >= 0)
             {
                 if (damagedCannon == null || damagedCannon.isAnimationOver()) // moving of cannon is only allowed if it gets not hitted
-                    cannon.position.X -= 3f;
+                    cannon.position.X -= cannonSpeed;
             }
-            if (keyboardState.IsKeyDown(Keys.D) && cannon.position.X <= viewportRect.Width)
+            if (keyboardState.IsKeyDown(Keys.Right) && cannon.position.X <= viewportRect.Width)
             {
                 if (damagedCannon == null || damagedCannon.isAnimationOver()) // moving of cannon is only allowed if it gets not hitted
-                    cannon.position.X += 3f;
+                    cannon.position.X += cannonSpeed;
             }
 
             if (keyboardState.IsKeyDown(Keys.Escape) && !pauseMenu.isVisible())
@@ -572,17 +577,17 @@ namespace WindowsGame7
             //Construct a level string and draw to
             //near top-left corner of the screen.
             spriteBatch.DrawString(font,
-                "Level: " + currentLevel.ToString(),
+                "LEVEL" + "\n" + currentLevel.ToString("#00000"),
                 new Vector2(levelDrawPoint.X * viewportRect.Width,
                 levelDrawPoint.Y * viewportRect.Height),
                 Color.Yellow);
 
             //Draw life graphics
             for (int i = 0; i < lifes; i++)
-                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 25 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
+                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 30 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
-            //if (lifes < 1)                
-                //game.showGameOver();
+            if (lifes < 1)                
+                game.showGameOver(score);
 
             // draw menu
             pauseMenu.Draw(spriteBatch, false);
