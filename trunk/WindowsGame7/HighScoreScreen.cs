@@ -21,7 +21,7 @@ namespace WindowsGame7
             this.game = game;
             texture = game.getContentManager().Load<Texture2D>("Sprites\\start-screen");
             lastState = Keyboard.GetState();
-            font = game.getContentManager().Load<SpriteFont>("Fonts\\GameFont");
+            font = game.getContentManager().Load<SpriteFont>("Fonts\\HighscoreFont");
             //Create a Rectangle that represents the full
             //drawable area of the game screen.
             viewportRect = new Rectangle(0, 0,
@@ -31,10 +31,15 @@ namespace WindowsGame7
 
         public void Update()
         {
+            if (game.highscores == null)
+                game.highscores = Highscore.loadHighscores();
+
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.Enter) && lastState.IsKeyUp(Keys.Enter))
             {
+                game.highscores = null;
+
                 game.ExitCurrentGame();
             }
 
@@ -48,9 +53,38 @@ namespace WindowsGame7
                Color.White);
 
             spriteBatch.DrawString(font,
-               "ufokiller " + "       959 points",
-               new Vector2(100,100),
-               Color.Yellow);
+               "Name",
+               new Vector2(200, 100),
+               Color.Black);
+
+            spriteBatch.DrawString(font,
+               "Points",
+               new Vector2(600, 100),
+               Color.Black);
+
+            spriteBatch.DrawString(font,
+               "--------------------------------------------",
+               new Vector2(200, 120),
+               Color.Black);
+
+            if (game.highscores != null)
+                for (int i = 0; i < game.highscores.Count; i++)
+                {
+                    spriteBatch.DrawString(font,
+                       game.highscores[i].name,
+                       new Vector2(200, 112 + 30 * (i + 1)),
+                       Color.Black);
+
+                    spriteBatch.DrawString(font,
+                       game.highscores[i].score.ToString("#0000000"),
+                       new Vector2(600, 112 + 30 * (i + 1)),
+                       Color.Black);
+                }
+            else
+                spriteBatch.DrawString(font,
+                   "Loading scores...",
+                   new Vector2(300, 400),
+                   Color.Black);
         }
     }
 }
