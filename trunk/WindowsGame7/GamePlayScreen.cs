@@ -50,14 +50,14 @@ namespace WindowsGame7
         int lastScore;
         int score;
 
-        int lifes = 1;
+        int lifes = 3;
         Texture2D lifeGraphics;
 
         SpriteFont font;
 
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
         Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);
-        Vector2 lifesDrawPoint = new Vector2(0.80f, 0.05f);
+        Vector2 lifesDrawPoint = new Vector2(1f, 0.05f);
 
 
         SoundEffect enemyShootSound;
@@ -584,7 +584,7 @@ namespace WindowsGame7
 
             //Draw life graphics
             for (int i = 0; i < lifes; i++)
-                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width + 30 * i, lifesDrawPoint.Y * viewportRect.Height), Color.White);
+                spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width - 30 * (lifes - i) - 30, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
             if (lifes < 1)                
                 game.showGameOver(score);
