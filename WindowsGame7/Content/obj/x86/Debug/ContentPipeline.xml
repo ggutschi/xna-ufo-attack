@@ -8,7 +8,16 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\GameFont.xnb</Output>
-      <Time>2011-02-24T17:05:23.2423699+01:00</Time>
+      <Time>2011-02-27T14:21:14.7561157+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\HighscoreFont.spritefont</Source>
+      <Name>Fonts\HighscoreFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\HighscoreFont.xnb</Output>
+      <Time>2011-02-24T17:55:56.3987182+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannonball.tga</Source>
@@ -17,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannonball.xnb</Output>
-      <Time>2011-02-22T22:41:58.7920379+01:00</Time>
+      <Time>2011-02-24T13:11:42.2082743+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\background-space.tga</Source>
@@ -26,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\background-space.xnb</Output>
-      <Time>2011-02-22T23:48:52+01:00</Time>
+      <Time>2011-02-24T13:11:42.2162747+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\enemy_01.tga</Source>
@@ -44,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01.xnb</Output>
-      <Time>2011-02-22T22:34:29+01:00</Time>
+      <Time>2011-02-24T13:11:42.2292755+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\cannon_01_small.tga</Source>
@@ -53,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_small.xnb</Output>
-      <Time>2011-02-22T23:42:30.0457337+01:00</Time>
+      <Time>2011-02-24T13:11:42.2492766+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\enemy_01_damagedSprite.tga</Source>
@@ -62,16 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01_damagedSprite.xnb</Output>
-      <Time>2011-02-22T10:53:05.0746627+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\StartScreen.jpg</Source>
-      <Name>Sprites\StartScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\StartScreen.xnb</Output>
-      <Time>2011-02-22T10:53:05.0886635+01:00</Time>
+      <Time>2011-02-24T13:11:42.2052741+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\GameOverScreen.jpg</Source>
@@ -81,6 +81,42 @@
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\GameOverScreen.xnb</Output>
       <Time>2011-02-22T10:53:05.0776629+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_laser.tga</Source>
+      <Name>Sprites\cannon_laser</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_laser.xnb</Output>
+      <Time>2011-02-24T13:11:42.2462765+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\start-screen.tga</Source>
+      <Name>Sprites\start-screen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\start-screen.xnb</Output>
+      <Time>2011-02-24T13:11:42.2262753+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\game-over.tga</Source>
+      <Name>Sprites\game-over</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\game-over.xnb</Output>
+      <Time>2011-02-24T13:11:42.2412762+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cannon_01_damagedSprite.tga</Source>
+      <Name>Sprites\cannon_01_damagedSprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_damagedSprite.xnb</Output>
+      <Time>2011-02-24T13:11:42.2022739+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Waves\cannonshoot.wav</Source>
@@ -118,60 +154,6 @@
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.xnb</Output>
       <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
       <Time>2011-02-20T16:56:08.572438+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\enemy_01_damagedSprite.tga</Source>
-      <Name>Sprites\enemy_01_damagedSprite</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\enemy_01_damagedSprite.xnb</Output>
-      <Time>2011-02-22T22:45:25.8408804+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\GameOverScreen.jpg</Source>
-      <Name>Sprites\GameOverScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\GameOverScreen.xnb</Output>
-      <Time>2011-02-21T17:20:55.1756734+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\cannon_laser.tga</Source>
-      <Name>Sprites\cannon_laser</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_laser.xnb</Output>
-      <Time>2011-02-22T22:19:26.1676722+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\start-screen.tga</Source>
-      <Name>Sprites\start-screen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\start-screen.xnb</Output>
-      <Time>2011-02-22T23:56:30+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\game-over.tga</Source>
-      <Name>Sprites\game-over</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\game-over.xnb</Output>
-      <Time>2011-02-23T00:12:40+01:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\cannon_01_damagedSprite.tga</Source>
-      <Name>Sprites\cannon_01_damagedSprite</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_damagedSprite.xnb</Output>
-      <Time>2011-02-24T13:07:24.2323999+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
