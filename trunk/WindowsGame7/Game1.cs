@@ -90,7 +90,7 @@ namespace WindowsGame7
             base.Initialize();
         }
 
-
+        
         /// <summary>
         /// Load your graphics content.  If loadAllContent is true, you should
         /// load content from both ResourceManagementMode pools.  Otherwise, just
@@ -101,7 +101,6 @@ namespace WindowsGame7
         {
   
         }
-
 
         /// <summary>
         /// Unload your graphics content.  If unloadAllContent is true, you should

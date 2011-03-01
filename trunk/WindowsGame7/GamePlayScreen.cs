@@ -38,6 +38,14 @@ namespace WindowsGame7
 
         Level currentLevel;
 
+        const int avgTimeOfSupergunGoodie = 15000;
+        const int timeOfSupergun = 10000;
+
+        GameObject supergunGoodie;
+
+        double supergunTime = 0;
+        double supergunGoodieTime = 5000;
+
         // lists for animating damaged enemies
         List<GameObject> damagedEnemies = new List<GameObject>();
         List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>();
@@ -85,6 +93,8 @@ namespace WindowsGame7
             cannon = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01"));
 
+            supergunGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
+                "Sprites\\supercannon_01_small"));
            
             cannon.position = new Vector2(
                 game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height - 30);
@@ -123,6 +133,12 @@ namespace WindowsGame7
             // increase game play sound to 80%
             MediaPlayer.Volume = 0.8f;
 
+        }
+
+
+        public bool supergunEnabled()
+        {
+            return supergunTime > 0;
         }
 
 
@@ -179,6 +195,9 @@ namespace WindowsGame7
             // update game only if it´s not paused
             if (!isGamePaused())
             {
+                //Update superguntime
+                if (supergunEnabled())
+                    supergunTime -= gameTime.ElapsedGameTime.Milliseconds;
 
                 //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
                 
@@ -209,6 +228,7 @@ namespace WindowsGame7
                 UpdateEnemies();
                 UpdateDamagedEnemies(gameTime);
                 UpdateDamagedCannon(gameTime);
+                UpdateSupergunGoodie(gameTime);
                 
 
                 UpdateLevel();
@@ -228,6 +248,11 @@ namespace WindowsGame7
 
 
         }
+
+        public void enableSupergun()
+        {
+            supergunTime = timeOfSupergun;
+        }
         
 
         /// <summary>
@@ -236,7 +261,9 @@ namespace WindowsGame7
         public void UpdateLevel()
         {
             if (score % 10 == 0 && score != lastScore)
+            {
                 currentLevel.increaseLevel(ref enemies, ref enemyCannonBalls);
+            }
 
             lastScore = score;
         }
@@ -300,11 +327,16 @@ namespace WindowsGame7
             {
                 if (!ball.alive)
                 {
+                    if (supergunEnabled())
+                        ball.sprite = game.getContentManager().Load<Texture2D>(
+                            "Sprites\\supercannon_laser");
+                    else
+                        ball.sprite = game.getContentManager().Load<Texture2D>(
+                            "Sprites\\cannon_laser");
+
                     ball.alive = true;
                     ball.position = cannon.position;
                     
-                    
-
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
                     //then scale by 5 to speed up the ball.
@@ -319,6 +351,17 @@ namespace WindowsGame7
 
                     return;
                 }
+            }
+        }
+
+        public void FireSupergunGoodie()
+        {
+            if (!supergunGoodie.alive)
+            {
+                supergunGoodie.alive = true;
+
+                supergunGoodie.position = new Vector2(random.Next(0, viewportRect.Width), 0);
+                supergunGoodie.velocity = new Vector2(0, 3f);
             }
         }
 
@@ -390,6 +433,54 @@ namespace WindowsGame7
         }
 
 
+        public void UpdateSupergunGoodie(GameTime gameTime)
+        {
+            if (supergunGoodie.alive)
+            {
+                supergunGoodie.position += supergunGoodie.velocity;
+                if (!viewportRect.Contains(new Point(
+                    (int)supergunGoodie.position.X,
+                    (int)supergunGoodie.position.Y)))
+                {
+                    supergunGoodie.alive = false;
+                }
+
+                Rectangle supergunGoodieRect = new Rectangle(
+                    (int)supergunGoodie.position.X,
+                    (int)supergunGoodie.position.Y,
+                    supergunGoodie.sprite.Width,
+                    supergunGoodie.sprite.Height);
+
+                Rectangle cannonRect = new Rectangle(
+                    (int)cannon.position.X,
+                    (int)cannon.position.Y,
+                    cannon.sprite.Width,
+                    cannon.sprite.Height);
+
+                if (supergunGoodieRect.Intersects(cannonRect))
+                {
+                    supergunGoodie.alive = false;
+
+                    enableSupergun();
+                }
+            }
+            else
+            {
+                if (supergunGoodieTime <= 0)
+                {
+                    FireSupergunGoodie();
+
+                    supergunGoodieTime = avgTimeOfSupergunGoodie + random.Next(-5000, 5000);
+                }
+                else
+                {
+                    supergunGoodieTime -= gameTime.ElapsedGameTime.Milliseconds;
+                }
+
+            }
+        }
+
+
         /// <summary>
         /// Moves cannon balls, handles cannon balls
         /// that move off screen edges, and tests intersection
@@ -410,6 +501,7 @@ namespace WindowsGame7
                         (int)ball.position.Y)))
                     {
                         ball.alive = false;
+
                         continue;
                     }
 
@@ -434,7 +526,9 @@ namespace WindowsGame7
 
                         if (cannonBallRect.Intersects(enemyRect))
                         {
-                            ball.alive = false;
+                            if (!supergunEnabled())
+                                ball.alive = false;
+
                             enemy.alive = false;
 
                             //Hitting an enemy with a cannon ball
@@ -531,6 +625,10 @@ namespace WindowsGame7
             //and height of the screen.
             spriteBatch.Draw(backgroundTexture, viewportRect,
                 Color.White);
+
+            if (supergunGoodie.alive)
+                spriteBatch.Draw(supergunGoodie.sprite,
+                    supergunGoodie.position, Color.White);
 
             foreach (GameObject ball in cannonBalls)
             {
