@@ -162,7 +162,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\supercannon_laser.xnb</Output>
-      <Time>2011-03-01T08:56:08.8096984+01:00</Time>
+      <Time>2011-03-01T14:44:45.2788263+01:00</Time>
     </Item>
     <Item>
       <Source>Sprites\supercannon_01_small.tga</Source>
@@ -171,7 +171,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\supercannon_01_small.xnb</Output>
-      <Time>2011-03-01T09:46:36.4798712+01:00</Time>
+      <Time>2011-03-01T14:44:45.3688315+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

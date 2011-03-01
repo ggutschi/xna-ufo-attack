@@ -63,7 +63,7 @@ namespace WindowsGame7
                Color.Black);
 
             spriteBatch.DrawString(font,
-               "--------------------------------------------",
+               "-------------------------------------------------------------------",
                new Vector2(200, 120),
                Color.Black);
 
@@ -83,7 +83,7 @@ namespace WindowsGame7
             else
                 spriteBatch.DrawString(font,
                    "Loading scores...",
-                   new Vector2(300, 400),
+                   new Vector2(350,350),
                    Color.Black);
         }
     }
