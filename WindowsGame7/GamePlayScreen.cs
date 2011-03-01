@@ -42,9 +42,11 @@ namespace WindowsGame7
         const int timeOfSupergun = 10000;
 
         GameObject supergunGoodie;
+        GameObject healthGoodie;
 
         double supergunTime = 0;
         double supergunGoodieTime = 5000;
+        double healthGoodieTime = 5000;
 
         // lists for animating damaged enemies
         List<GameObject> damagedEnemies = new List<GameObject>();
@@ -87,7 +89,6 @@ namespace WindowsGame7
             explodeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\explode");
                        
             lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
-
             backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
 
             cannon = new GameObject(game.getContentManager().Load<Texture2D>(
@@ -95,6 +96,8 @@ namespace WindowsGame7
 
             supergunGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\extra_gun"));
+            healthGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
+                "Sprites\\extra_life"));
            
             cannon.position = new Vector2(
                 game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height - 30);
@@ -229,8 +232,7 @@ namespace WindowsGame7
                 UpdateDamagedEnemies(gameTime);
                 UpdateDamagedCannon(gameTime);
                 UpdateSupergunGoodie(gameTime);
-                
-
+                UpdateHealthGoodie(gameTime);
                 UpdateLevel();
 
                 //Reset previous input states to current states
@@ -368,6 +370,17 @@ namespace WindowsGame7
             }
         }
 
+        public void FireHealthGoodie()
+        {
+            if (!healthGoodie.alive)
+            {
+                healthGoodie.alive = true;
+
+                healthGoodie.position = new Vector2(random.Next(0, viewportRect.Width), 0);
+                healthGoodie.velocity = new Vector2(0, 5f);
+            }
+        }
+
 
         /// <summary>
         /// Places a cannon ball object into the game world
@@ -433,6 +446,56 @@ namespace WindowsGame7
         {
             if (damagedCannon != null)
                 damagedCannon.Update(gameTime);
+        }
+
+        public void UpdateHealthGoodie(GameTime gameTime)
+        {
+            if (healthGoodie.alive)
+            {
+                healthGoodie.position += healthGoodie.velocity;
+
+                if (!viewportRect.Contains(new Point(
+                    (int)healthGoodie.position.X,
+                    (int)healthGoodie.position.Y)))
+                {
+                    healthGoodie.alive = false;
+                }
+
+                Rectangle healthGoodieRect = new Rectangle(
+                    (int)healthGoodie.position.X,
+                    (int)healthGoodie.position.Y,
+                    healthGoodie.sprite.Width,
+                    healthGoodie.sprite.Height);
+
+                Rectangle cannonRect = new Rectangle(
+                    (int)cannon.position.X,
+                    (int)cannon.position.Y,
+                    cannon.sprite.Width,
+                    cannon.sprite.Height);
+
+                if (healthGoodieRect.Intersects(cannonRect))
+                {
+                    healthGoodie.alive = false;
+                    if (lifes < 3)
+                        lifes++;                    
+                }
+
+            }
+            else
+            {
+                // healthGoodie in every third level (at random time in this level)
+                if (healthGoodieTime <= 0 && currentLevel.GetLevel %3 == 0 && currentLevel.LastHealthLevel != currentLevel.GetLevel)
+                {
+                    FireHealthGoodie();
+                    currentLevel.LastHealthLevel = currentLevel.GetLevel;
+                    healthGoodieTime = random.Next(5000, 25000);
+                }
+                else
+                {
+                    healthGoodieTime -= gameTime.ElapsedGameTime.Milliseconds;
+                }
+
+            }
         }
 
 
@@ -632,6 +695,10 @@ namespace WindowsGame7
             if (supergunGoodie.alive)
                 spriteBatch.Draw(supergunGoodie.sprite,
                     supergunGoodie.position, Color.White);
+
+            if (healthGoodie.alive)
+                spriteBatch.Draw(healthGoodie.sprite,
+                    healthGoodie.position, Color.White);
 
             foreach (GameObject ball in cannonBalls)
             {
