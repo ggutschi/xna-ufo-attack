@@ -10,7 +10,7 @@ namespace WindowsGame7
 {
     public class Highscore
     {
-        static String server = "http://localhost:81/xna-ufo-attack/";
+        static String server = "http://vserver1.xgx.at/livesites/ufo-attack/";
 
         public int score;
         public String name;

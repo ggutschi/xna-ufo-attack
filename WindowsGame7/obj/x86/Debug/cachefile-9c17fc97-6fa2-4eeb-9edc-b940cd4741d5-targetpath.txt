@@ -16,3 +16,5 @@ Content\Audio\Waves\enemyshoot.xnb
 Content\Audio\Waves\explode.xnb
 Content\Audio\Mp3s\music.xnb
 Content\Audio\Mp3s\music.wma
+Content\Sprites\supercannon_laser.xnb
+Content\Sprites\supercannon_01_small.xnb
