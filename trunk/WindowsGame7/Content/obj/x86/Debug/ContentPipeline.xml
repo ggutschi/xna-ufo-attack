@@ -173,6 +173,15 @@
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\supercannon_01_small.xnb</Output>
       <Time>2011-03-01T14:44:45.3688315+01:00</Time>
     </Item>
+    <Item>
+      <Source>Audio\Waves\cannonshoot_ext.wav</Source>
+      <Name>Audio\Waves\cannonshoot_ext</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\cannonshoot_ext.xnb</Output>
+      <Time>2011-03-01T17:04:43.6661866+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

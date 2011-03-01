@@ -71,6 +71,7 @@ namespace WindowsGame7
         SoundEffect enemyShootSound;
         SoundEffect cannonShootSound;
         SoundEffect explodeSound;
+        SoundEffect cannonExtShootSound;
 
         Menu pauseMenu;
         Boolean paused = false; // is game paused or not
@@ -82,19 +83,18 @@ namespace WindowsGame7
             
             enemyShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\enemyshoot");
             cannonShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\cannonshoot");
+            cannonExtShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\cannonshoot_ext");
             explodeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\explode");
                        
-            lifeGraphics =
-                    game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
+            lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
 
-            backgroundTexture =
-                game.getContentManager().Load<Texture2D>("Sprites\\background-space");
+            backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
 
             cannon = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01"));
 
             supergunGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
-                "Sprites\\supercannon_01_small"));
+                "Sprites\\extra_gun"));
            
             cannon.position = new Vector2(
                 game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height - 30);
@@ -347,7 +347,10 @@ namespace WindowsGame7
                         (float)Math.Sin(cannon_rotation))
                     * 20.0f;
 
-                    cannonShootSound.Play();
+                    if (supergunEnabled())
+                        cannonExtShootSound.Play();
+                    else
+                        cannonShootSound.Play();
 
                     return;
                 }
