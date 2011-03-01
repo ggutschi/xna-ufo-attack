@@ -19,6 +19,7 @@ namespace WindowsGame7
         int score;
 
         string text = "";
+        string initialtext = "Please enter your name";
 
 
         Keys[] keysToCheck = new Keys[] {Keys.A, Keys.B, Keys.C, Keys.D, Keys.E,
@@ -27,6 +28,8 @@ namespace WindowsGame7
                                          Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T,
                                          Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y,
                                          Keys.Z, Keys.Back, Keys.Space };
+
+        bool bFirstKeyHit = false; 
 
 
         public GameOverScreen(Game1 game, int score)
@@ -54,6 +57,7 @@ namespace WindowsGame7
                 if (keyboardState.IsKeyDown(key) && lastState.IsKeyUp(key))
                 {
                     AddKeyToText(key);
+                    bFirstKeyHit = true;
                     break;
                 }
 
@@ -65,10 +69,23 @@ namespace WindowsGame7
             if (texture != null)
                 spriteBatch.Draw(texture, new Vector2(0f, 0f), Color.White);
 
-            spriteBatch.DrawString(font,
-               text,
-               new Vector2(400, 450),
+            if (!bFirstKeyHit)
+            {
+                // show message for user
+                spriteBatch.DrawString(font,
+               initialtext,
+               new Vector2(370, 405),
                Color.Black);
+            }
+            else
+            {
+               // user input
+               spriteBatch.DrawString(font,
+               text,
+               new Vector2(370, 405),
+               Color.Black);
+            }
+            
         }
 
 
