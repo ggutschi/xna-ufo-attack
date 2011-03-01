@@ -9,14 +9,39 @@ namespace WindowsGame7
     class Level
     {
         private Game1 game;
+
         int level = 1;
         int maxEnemies = 2;
         int maxEnemyCannonBalls = 1;
         float enemyCannonSpeed = 1.6f;
+        int lastHealthLevel = 0;
 
         public Level(Game1 game)
         {
             this.game = game;
+            
+        }
+
+        public int GetLevel
+        {
+            get
+            {
+                return this.level;
+            }
+          
+        }
+
+        public int LastHealthLevel
+        {
+            get
+            {
+                return this.lastHealthLevel;
+            }
+            set
+            {
+                this.lastHealthLevel = value;
+            }
+
         }
 
         public int MaxEnemyCannonBalls
