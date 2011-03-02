@@ -80,6 +80,8 @@ namespace WindowsGame7
         SoundEffect doubleKillSound;
         SoundEffect multiKillSound;
 
+        double killSoundPlayed = 0;             // duration of killsound already played
+
         Menu pauseMenu;
         Boolean paused = false; // is game paused or not
         KeyboardState oldState;
@@ -373,7 +375,7 @@ namespace WindowsGame7
             {
                 supergunGoodie.alive = true;
 
-                supergunGoodie.position = new Vector2(random.Next(0, viewportRect.Width), 0);
+                supergunGoodie.position = new Vector2(random.Next(10, viewportRect.Width - 10), 0);
                 supergunGoodie.velocity = new Vector2(0, 5f);
             }
         }
@@ -384,7 +386,7 @@ namespace WindowsGame7
             {
                 healthGoodie.alive = true;
 
-                healthGoodie.position = new Vector2(random.Next(0, viewportRect.Width), 0);
+                healthGoodie.position = new Vector2(random.Next(10, viewportRect.Width - 10), 0);
                 healthGoodie.velocity = new Vector2(0, 5f);
             }
         }
