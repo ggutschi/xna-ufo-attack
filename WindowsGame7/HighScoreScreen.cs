@@ -63,7 +63,7 @@ namespace WindowsGame7
                Color.Black);
 
             spriteBatch.DrawString(font,
-               "-------------------------------------------------------------------",
+               "--------------------------------------------",
                new Vector2(200, 120),
                Color.Black);
 
