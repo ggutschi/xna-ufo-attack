@@ -20,6 +20,7 @@ namespace WindowsGame7
         Rectangle viewportRect;
 
         GameObject cannon;
+        
         const int maxCannonBalls = 2;
         GameObject[] cannonBalls;
         GameObject[] enemyCannonBalls = new GameObject[0];
@@ -54,6 +55,8 @@ namespace WindowsGame7
 
         // sprite for animating damaged cannon
         SpriteAnimation damagedCannon;
+        // sprite for reloaded cannon (got a goodie)
+        SpriteAnimation reloadedCannon;
 
         GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
@@ -237,6 +240,7 @@ namespace WindowsGame7
                 UpdateDamagedCannon(gameTime);
                 UpdateSupergunGoodie(gameTime);
                 UpdateHealthGoodie(gameTime);
+                UpdateReloadedCannon(gameTime);
                 UpdateLevel();
 
                 //Reset previous input states to current states
@@ -370,13 +374,13 @@ namespace WindowsGame7
                 supergunGoodie.alive = true;
 
                 supergunGoodie.position = new Vector2(random.Next(0, viewportRect.Width), 0);
-                supergunGoodie.velocity = new Vector2(0, 3f);
+                supergunGoodie.velocity = new Vector2(0, 5f);
             }
         }
 
         public void FireHealthGoodie()
         {
-            if (!healthGoodie.alive)
+            if (!healthGoodie.alive && lifes < 3)
             {
                 healthGoodie.alive = true;
 
@@ -425,6 +429,15 @@ namespace WindowsGame7
 
                     return;
                 }
+            }
+        }
+
+        public void UpdateReloadedCannon(GameTime gameTime)
+        {
+            if (reloadedCannon != null && !reloadedCannon.isAnimationOver())
+            {
+                reloadedCannon.Position.X = cannon.position.X;
+                reloadedCannon.Position.Y = cannon.position.Y;
             }
         }
 
@@ -481,7 +494,15 @@ namespace WindowsGame7
                 {
                     healthGoodie.alive = false;
                     if (lifes < 3)
-                        lifes++;                    
+                        lifes++;  
+                  
+                    // animate cannon
+                    reloadedCannon = new SpriteAnimation(
+                           game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_reloaded"), 2);
+                    reloadedCannon.Position = new Vector2(cannon.position.X, cannon.position.Y);
+                    reloadedCannon.IsLooping = false;
+                    reloadedCannon.FramesPerSecond = 5;
+
                 }
 
             }
@@ -787,9 +808,15 @@ namespace WindowsGame7
             if (damagedCannon != null)
                 damagedCannon.Draw(spriteBatch);
 
+            // draw reloaded cannon
+            reloadedCannon.Draw(spriteBatch);
+
             // reset cannon if animation is over
             if (damagedCannon != null && damagedCannon.isAnimationOver())
                 damagedCannon = null;
+
+            if (reloadedCannon != null && reloadedCannon.isAnimationOver())
+                reloadedCannon = null;
 
             
             // test rectangle to check collission-area
