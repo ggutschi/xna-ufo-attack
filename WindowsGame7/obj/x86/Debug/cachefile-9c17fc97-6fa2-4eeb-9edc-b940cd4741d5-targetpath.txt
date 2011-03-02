@@ -23,3 +23,4 @@ Content\Audio\Waves\doublekill.xnb
 Content\Audio\Waves\monsterkill.xnb
 Content\Audio\Mp3s\music.xnb
 Content\Audio\Mp3s\music.wma
+Content\Sprites\cannon_01_reloaded.xnb
