@@ -74,6 +74,8 @@ namespace WindowsGame7
         SoundEffect cannonShootSound;
         SoundEffect explodeSound;
         SoundEffect cannonExtShootSound;
+        SoundEffect doubleKillSound;
+        SoundEffect multiKillSound;
 
         Menu pauseMenu;
         Boolean paused = false; // is game paused or not
@@ -87,6 +89,8 @@ namespace WindowsGame7
             cannonShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\cannonshoot");
             cannonExtShootSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\cannonshoot_ext");
             explodeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\explode");
+            doubleKillSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\doublekill");
+            multiKillSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\monsterkill");
                        
             lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
             backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
@@ -568,6 +572,17 @@ namespace WindowsGame7
                     {
                         ball.alive = false;
 
+                        if (ball.killed == 2)
+                        {
+                            doubleKillSound.Play();
+                        }
+                        else if (ball.killed > 2)
+                        {
+                            multiKillSound.Play();
+                        }
+
+                        ball.killed = 0;
+
                         continue;
                     }
 
@@ -594,6 +609,8 @@ namespace WindowsGame7
                         {
                             if (!supergunEnabled())
                                 ball.alive = false;
+                            else
+                                ball.killed++;
 
                             enemy.alive = false;
 

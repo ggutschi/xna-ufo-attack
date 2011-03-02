@@ -30,6 +30,9 @@ namespace WindowsGame7
         private Boolean visibility;         //regelt die Sichtbarkeit des Menüs
         private MenuChoice[] choice;          //speichert den aktuell ausgewählten Menüpunkt
 
+        private float minScale = 1.0f;
+        private float maxScale = 1.2f;
+
         
         //Constructor des Menüs
         //Initialisiert Standardwerte
@@ -55,7 +58,7 @@ namespace WindowsGame7
             if (menuItemCount < maxItems)
             {
                 menuItems[menuItemCount] = name;
-                scale[menuItemCount] = 1.0f;
+                scale[menuItemCount] = minScale;
                 choice[menuItemCount] = c;
                 pos[menuItemCount++] = p;
             }
@@ -118,13 +121,13 @@ namespace WindowsGame7
                 //Lässt die Skalierung des aktuellen Punktes langsam größer werden
                 if (i == curMenuItem)
                 {
-                    if (scale[i] < 1.5f)
+                    if (scale[i] < maxScale)
                     {
                         scale[i] += 0.04 + 10.0f * gameTime.ElapsedGameTime.Seconds;
                     }
                 }
                 //Lässt die Skalierung aller anderen Menüpunkte langsam kleiner werden
-                else if (scale[i] > 1.0f && i != curMenuItem)
+                else if (scale[i] > minScale && i != curMenuItem)
                 {
                     scale[i] -= 0.04 + 10.0f * gameTime.ElapsedGameTime.Seconds;
                 }

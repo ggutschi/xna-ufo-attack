@@ -25,5 +25,11 @@ D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Fonts\HighscoreFo
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\supercannon_laser.xnb
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\supercannon_01_small.xnb
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\cannonshoot_ext.xnb
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\WindowsGame7.exe.manifest
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\WindowsGame7.application
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\WindowsGame7.exe.manifest
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\extra_gun.xnb
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\extra_life.xnb
+D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\WindowsGame7.application
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\doublekill.xnb
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\monsterkill.xnb

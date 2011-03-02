@@ -50,7 +50,7 @@ namespace WindowsGame7
             //Menüpunkt hinzufügen
             startMenu.AddMenuItem("START GAME", MenuChoice.CONTINUE, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 150));
             startMenu.AddMenuItem("HIGHSCORE", MenuChoice.HIGHSCORE, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 100));
-            startMenu.AddMenuItem("EXIT", MenuChoice.EXIT, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 50));
+            startMenu.AddMenuItem("EXIT", MenuChoice.EXIT, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 20));
         }
 
         public void Update(GameTime gameTime)

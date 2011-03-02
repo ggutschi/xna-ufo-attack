@@ -28,6 +28,7 @@ namespace WindowsGame7
         public Vector2 center;
         public Vector2 velocity;
         public bool alive;
+        public int killed = 0;
 
         public GameObject(Texture2D loadedTexture)
         {
