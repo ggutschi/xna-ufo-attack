@@ -809,7 +809,8 @@ namespace WindowsGame7
                 damagedCannon.Draw(spriteBatch);
 
             // draw reloaded cannon
-            reloadedCannon.Draw(spriteBatch);
+            if (reloadedCannon != null)
+                reloadedCannon.Draw(spriteBatch);
 
             // reset cannon if animation is over
             if (damagedCannon != null && damagedCannon.isAnimationOver())

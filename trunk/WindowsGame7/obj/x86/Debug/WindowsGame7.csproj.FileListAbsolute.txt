@@ -34,3 +34,4 @@ D:\workspace\xna-ufo-attack\WindowsGame7\obj\x86\Debug\WindowsGame7.application
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\doublekill.xnb
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\monsterkill.xnb
 D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\WindowsGame7.exe.config
+D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_reloaded.xnb
