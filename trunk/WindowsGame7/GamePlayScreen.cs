@@ -79,8 +79,8 @@ namespace WindowsGame7
         SoundEffect cannonExtShootSound;
         SoundEffect doubleKillSound;
         SoundEffect multiKillSound;
-
-        double killSoundPlayed = 0;             // duration of killsound already played
+        SoundEffect killingSpreeSound;
+        SoundEffect godlikeSound;
 
         Menu pauseMenu;
         Boolean paused = false; // is game paused or not
@@ -96,6 +96,8 @@ namespace WindowsGame7
             explodeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\explode");
             doubleKillSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\doublekill");
             multiKillSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\monsterkill");
+            killingSpreeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\killingspree");
+            godlikeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\godlike");
                        
             lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
             backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
@@ -496,8 +498,8 @@ namespace WindowsGame7
                 if (healthGoodieRect.Intersects(cannonRect))
                 {
                     healthGoodie.alive = false;
-                    if (lifes < 3)
-                        lifes++;  
+
+                    godlikeSound.Play();
                   
                     // animate cannon
                     reloadedCannon = new SpriteAnimation(
@@ -524,7 +526,6 @@ namespace WindowsGame7
 
             }
         }
-
 
         public void UpdateSupergunGoodie(GameTime gameTime)
         {
@@ -554,6 +555,8 @@ namespace WindowsGame7
                 {
                     supergunGoodie.alive = false;
 
+                    killingSpreeSound.Play();
+
                     // animate cannon
                     reloadedCannon = new SpriteAnimation(
                            game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_reloaded"), 2);
@@ -579,7 +582,6 @@ namespace WindowsGame7
 
             }
         }
-
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls
@@ -665,7 +667,6 @@ namespace WindowsGame7
                 }
             }
         }
-
 
         /// <summary>
         /// Moves cannon balls, handles cannon balls

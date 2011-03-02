@@ -227,6 +227,24 @@
       <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
       <Time>2011-02-20T16:56:08.572438+01:00</Time>
     </Item>
+    <Item>
+      <Source>Audio\Waves\killingspree.wav</Source>
+      <Name>Audio\Waves\killingspree</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\killingspree.xnb</Output>
+      <Time>2011-03-02T13:17:59.8595894+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\godlike.wav</Source>
+      <Name>Audio\Waves\godlike</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\godlike.xnb</Output>
+      <Time>2011-03-02T13:29:12.5740665+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
