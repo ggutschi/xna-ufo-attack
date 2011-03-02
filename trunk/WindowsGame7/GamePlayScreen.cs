@@ -434,11 +434,12 @@ namespace WindowsGame7
 
         public void UpdateReloadedCannon(GameTime gameTime)
         {
-            if (reloadedCannon != null && !reloadedCannon.isAnimationOver())
+            if (reloadedCannon != null)
             {
-                reloadedCannon.Position.X = cannon.position.X;
-                reloadedCannon.Position.Y = cannon.position.Y;
+                reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+                reloadedCannon.Update(gameTime);
             }
+                
         }
 
         public void UpdateDamagedEnemies(GameTime gameTime)
@@ -499,10 +500,9 @@ namespace WindowsGame7
                     // animate cannon
                     reloadedCannon = new SpriteAnimation(
                            game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_reloaded"), 2);
-                    reloadedCannon.Position = new Vector2(cannon.position.X, cannon.position.Y);
+                    reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
                     reloadedCannon.IsLooping = false;
                     reloadedCannon.FramesPerSecond = 5;
-
                 }
 
             }
@@ -551,6 +551,13 @@ namespace WindowsGame7
                 if (supergunGoodieRect.Intersects(cannonRect))
                 {
                     supergunGoodie.alive = false;
+
+                    // animate cannon
+                    reloadedCannon = new SpriteAnimation(
+                           game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_reloaded"), 2);
+                    reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+                    reloadedCannon.IsLooping = false;
+                    reloadedCannon.FramesPerSecond = 5;
 
                     enableSupergun();
                 }
