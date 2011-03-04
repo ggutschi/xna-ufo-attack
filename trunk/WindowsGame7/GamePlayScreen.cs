@@ -12,67 +12,75 @@ namespace WindowsGame7
 {
     class GamePlayScreen
     {
-        const float cannonSpeed = 5f;
-
-        private Game1 game;
-        
-        Texture2D backgroundTexture;
-        Rectangle viewportRect;
-
-        GameObject cannon;
-        
-        const int maxCannonBalls = 2;
-        GameObject[] cannonBalls;
-        GameObject[] enemyCannonBalls = new GameObject[0];
-
-        GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
-        KeyboardState previousKeyboardState = Keyboard.GetState();
-
+        // constants
         const float maxEnemyHeight = 0.1f;
         const float minEnemyHeight = 0.5f;
         const float maxEnemyVelocity = 5.0f;
         const float minEnemyVelocity = 1.0f;
-
-        Random random = new Random();
-
-        GameObject[] enemies = new GameObject[0];
-
-        Level currentLevel;
-
+        const float cannonSpeed = 5f;
+        const int maxCannonBalls = 2;
         const int avgTimeOfSupergunGoodie = 15000;
+        const int avgTimeOfShieldGoodie = 15000;
         const int timeOfSupergun = 10000;
+        const int timeOfShield = 5000;
 
-        GameObject supergunGoodie;
-        GameObject healthGoodie;
-
+        // variable time values
         double supergunTime = 0;
         double supergunGoodieTime = 5000;
+        double shieldGoodieTime = 10000;
+        double shieldTime = 0;
         double healthGoodieTime = 5000;
-
-        // lists for animating damaged enemies
-        List<GameObject> damagedEnemies = new List<GameObject>();
-        List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>();
-
-        // sprite for animating damaged cannon
-        SpriteAnimation damagedCannon;
-        // sprite for reloaded cannon (got a goodie)
-        SpriteAnimation reloadedCannon;
-
-        GameObject lastEnemyShooted = null;     // last enemy which shooted a cannon ball
 
         int lastScore;
         int score;
-
         int lifes = 3;
+
+        // the game object
+        private Game1 game;
+        
+        // textures
+        Texture2D backgroundTexture;
         Texture2D lifeGraphics;
 
+        // Game objects
+        GameObject cannon;
+        GameObject cannon_backup;
+        GameObject cannon_shield;
+        GameObject supergunGoodie;
+        GameObject shieldGoodie;
+        GameObject healthGoodie;
+        GameObject[] cannonBalls;
+        GameObject lastEnemyShooted = null;                         // last enemy which shooted a cannon ball
+        GameObject[] enemyCannonBalls = new GameObject[0];
+        GameObject[] enemies = new GameObject[0];
+        List<GameObject> damagedEnemies = new List<GameObject>();   // lists for animating damaged enemies
+
+        GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
+        KeyboardState oldState;
+        KeyboardState previousKeyboardState = Keyboard.GetState();
+
+        Random random = new Random();
+
+
+        Level currentLevel;                                         // game level
+        Boolean paused = false;                                     // is game paused or not
+
+        // Sprite animations
+        SpriteAnimation damagedCannon;                              // sprite for animating damaged cannon
+        SpriteAnimation reloadedCannon;                             // sprite for reloaded cannon (got a goodie)
+        List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>();
+
+        // game font
         SpriteFont font;
 
+        // vectors for positioning
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
         Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);
         Vector2 lifesDrawPoint = new Vector2(1f, 0.05f);
 
+        Rectangle viewportRect;
 
+        // sound effects
         SoundEffect enemyShootSound;
         SoundEffect cannonShootSound;
         SoundEffect explodeSound;
@@ -82,10 +90,9 @@ namespace WindowsGame7
         SoundEffect killingSpreeSound;
         SoundEffect godlikeSound;
 
+        // pause menu
         Menu pauseMenu;
-        Boolean paused = false; // is game paused or not
-        KeyboardState oldState;
-
+        
         public GamePlayScreen(Game1 game)
         {
             this.game = game;
@@ -101,15 +108,23 @@ namespace WindowsGame7
                        
             lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
             backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
-
+            
             cannon = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01"));
+
+            cannon_backup = new GameObject(game.getContentManager().Load<Texture2D>(
+                "Sprites\\cannon_01"));
+
+            cannon_shield = new GameObject(game.getContentManager().Load<Texture2D>(
+                "Sprites\\cannon_01_shield"));
 
             supergunGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\extra_gun"));
             healthGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
                 "Sprites\\extra_life"));
-           
+            shieldGoodie = new GameObject(game.getContentManager().Load<Texture2D>(
+                "Sprites\\extra_shield"));
+
             cannon.position = new Vector2(
                 game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height - 30);
 
@@ -117,10 +132,6 @@ namespace WindowsGame7
 
             for (int i = 0; i < maxCannonBalls; i++)
             {
-                /*cannonBalls[i] = new GameObject(
-                    game.getContentManager().Load<Texture2D>(
-                    "Sprites\\cannonball"));
-                 */
                 cannonBalls[i] = new GameObject(
                     game.getContentManager().Load<Texture2D>(
                     "Sprites\\cannon_laser"));
@@ -150,9 +161,14 @@ namespace WindowsGame7
         }
 
 
-        public bool supergunEnabled()
+        private bool supergunEnabled()
         {
             return supergunTime > 0;
+        }
+
+        private bool shieldEnabled()
+        {
+            return cannon_shield.alive;
         }
 
 
@@ -213,11 +229,6 @@ namespace WindowsGame7
                 if (supergunEnabled())
                     supergunTime -= gameTime.ElapsedGameTime.Milliseconds;
 
-                //Restrict cannon rotation to a 180-degree angle: clamp(value, min, max)
-                
-                //cannon.rotation = MathHelper.Clamp(
-                //    cannon.rotation, -1f, 1f);
-
                 //Only fire cannon ball if player has pressed button
                 //this update loop - do not fire cannon ball if
                 //button is merely held down.
@@ -227,13 +238,11 @@ namespace WindowsGame7
                     FireCannonBall();
                 }
 
-#if !XBOX
                 if (keyboardState.IsKeyDown(Keys.Up) &&
                     previousKeyboardState.IsKeyUp(Keys.Up))
                 {
                     FireCannonBall();
                 }
-#endif
 
                 FireEnemyCannonBall();
 
@@ -244,28 +253,37 @@ namespace WindowsGame7
                 UpdateDamagedCannon(gameTime);
                 UpdateSupergunGoodie(gameTime);
                 UpdateHealthGoodie(gameTime);
+                UpdateShieldGoodie(gameTime);
+                UpdateCannonShield(gameTime);
                 UpdateReloadedCannon(gameTime);
                 UpdateLevel();
 
                 //Reset previous input states to current states
                 //for next Update call.
                 previousGamePadState = gamePadState;
-#if !XBOX
                 previousKeyboardState = keyboardState;
-#endif
 
-            } // if !paused
+            } // if game is not paused
 
-
-            // update also menu  
+            // update menu  
             pauseMenu.Update(gameTime);
-
-
         }
 
-        public void enableSupergun()
+        private void enableSupergun()
         {
             supergunTime = timeOfSupergun;
+        }
+
+        private void enableShield()
+        {
+            cannon_shield.alive = true;
+            shieldTime = timeOfShield;
+        }
+
+        private void disableShield()
+        {
+            cannon_shield.alive = false;
+            shieldTime = 0;            
         }
         
 
@@ -330,7 +348,6 @@ namespace WindowsGame7
             }
         }
 
-
         /// <summary>
         /// Places a cannon ball object into the game world
         /// by setting position and velocity
@@ -350,6 +367,9 @@ namespace WindowsGame7
 
                     ball.alive = true;
                     ball.position = cannon.position;
+
+                    if (shieldEnabled())
+                        ball.position.X += cannon.sprite.Width / 4 - 3;
                     
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
@@ -368,6 +388,17 @@ namespace WindowsGame7
 
                     return;
                 }
+            }
+        }
+
+        public void FireShieldGoodie()
+        {
+            if (!shieldGoodie.alive)
+            {
+                shieldGoodie.alive = true;
+
+                shieldGoodie.position = new Vector2(random.Next(10, viewportRect.Width - 10), 0);
+                shieldGoodie.velocity = new Vector2(0, 5f);
             }
         }
 
@@ -435,6 +466,22 @@ namespace WindowsGame7
                 }
             }
         }
+        
+        private void UpdateCannonShield(GameTime gameTime)
+        {
+            if (shieldEnabled())
+            {
+                shieldTime -= gameTime.ElapsedGameTime.Milliseconds;    // Update shieldtime
+            }
+
+            if (shieldTime < 0 )
+            {
+                disableShield();
+                cannon.sprite = game.getContentManager().Load<Texture2D>(
+                "Sprites\\cannon_01");
+            }
+        }
+            
 
         public void UpdateReloadedCannon(GameTime gameTime)
         {
@@ -525,6 +572,60 @@ namespace WindowsGame7
                 }
 
             }
+        }
+
+        public void UpdateShieldGoodie(GameTime gameTime)
+        {
+            if (shieldGoodie.alive)
+            {
+                shieldGoodie.position += shieldGoodie.velocity;
+                if (!viewportRect.Contains(new Point(
+                    (int)shieldGoodie.position.X,
+                    (int)shieldGoodie.position.Y)))
+                {
+                    shieldGoodie.alive = false;
+                }
+
+                Rectangle shieldGoodieRect = new Rectangle(
+                    (int)shieldGoodie.position.X,
+                    (int)shieldGoodie.position.Y,
+                    shieldGoodie.sprite.Width,
+                    shieldGoodie.sprite.Height);
+
+                Rectangle cannonRect = new Rectangle(
+                    (int)cannon.position.X,
+                    (int)cannon.position.Y,
+                    cannon.sprite.Width,
+                    cannon.sprite.Height);
+
+                if (shieldGoodieRect.Intersects(cannonRect))
+                {
+                    shieldGoodie.alive = false;
+
+                    killingSpreeSound.Play();
+
+                    // update cannon sprite
+                    cannon_backup = cannon;
+                    cannon.sprite = cannon_shield.sprite;                    
+                    cannon.position = new Vector2(cannon.position.X - 42, cannon.position.Y - 24);
+                    enableShield();
+                }
+            }
+            else
+            {
+                if (shieldGoodieTime <= 0 && cannon_shield.alive == false)
+                {
+                    FireShieldGoodie();
+
+                    shieldGoodieTime = avgTimeOfShieldGoodie + random.Next(-10000, 10000);
+                }
+                else
+                {
+                    shieldGoodieTime -= gameTime.ElapsedGameTime.Milliseconds;
+                }
+
+            }
+
         }
 
         public void UpdateSupergunGoodie(GameTime gameTime)
@@ -743,6 +844,10 @@ namespace WindowsGame7
             if (supergunGoodie.alive)
                 spriteBatch.Draw(supergunGoodie.sprite,
                     supergunGoodie.position, Color.White);
+
+            if (shieldGoodie.alive)
+                spriteBatch.Draw(shieldGoodie.sprite,
+                    shieldGoodie.position, Color.White);
 
             if (healthGoodie.alive)
                 spriteBatch.Draw(healthGoodie.sprite,
