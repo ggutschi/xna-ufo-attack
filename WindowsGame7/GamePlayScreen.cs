@@ -22,7 +22,7 @@ namespace WindowsGame7
         const int avgTimeOfSupergunGoodie = 15000;
         const int avgTimeOfShieldGoodie = 15000;
         const int timeOfSupergun = 10000;
-        const int timeOfShield = 5000;
+        const int timeOfShield = 30000;
 
         // variable time values
         double supergunTime = 0;
@@ -89,6 +89,8 @@ namespace WindowsGame7
         SoundEffect multiKillSound;
         SoundEffect killingSpreeSound;
         SoundEffect godlikeSound;
+        SoundEffect unstoppableSound;
+
 
         // pause menu
         Menu pauseMenu;
@@ -105,6 +107,7 @@ namespace WindowsGame7
             multiKillSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\monsterkill");
             killingSpreeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\killingspree");
             godlikeSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\godlike");
+            unstoppableSound = game.getContentManager().Load<SoundEffect>("Audio\\Waves\\unstoppable");
                        
             lifeGraphics = game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_small");
             backgroundTexture = game.getContentManager().Load<Texture2D>("Sprites\\background-space");
@@ -369,7 +372,7 @@ namespace WindowsGame7
                     ball.position = cannon.position;
 
                     if (shieldEnabled())
-                        ball.position.X += cannon.sprite.Width / 4 - 3;
+                        ball.position.X += 66;
                     
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
@@ -479,6 +482,7 @@ namespace WindowsGame7
                 disableShield();
                 cannon.sprite = game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01");
+                cannon.position = new Vector2(cannon.position.X + 66, cannon.position.Y + 50);
             }
         }
             
@@ -487,7 +491,11 @@ namespace WindowsGame7
         {
             if (reloadedCannon != null)
             {
-                reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+                if (cannon_shield.alive)
+                    reloadedCannon.Position = new Vector2(cannon.position.X+23, cannon.position.Y+13);
+                else
+                    reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+
                 reloadedCannon.Update(gameTime);
             }
                 
@@ -593,8 +601,8 @@ namespace WindowsGame7
                     shieldGoodie.sprite.Height);
 
                 Rectangle cannonRect = new Rectangle(
-                    (int)cannon.position.X,
-                    (int)cannon.position.Y,
+                    (int)cannon.position.X-42,
+                    (int)cannon.position.Y-42,
                     cannon.sprite.Width,
                     cannon.sprite.Height);
 
@@ -602,13 +610,12 @@ namespace WindowsGame7
                 {
                     shieldGoodie.alive = false;
 
-                    killingSpreeSound.Play();
-
                     // update cannon sprite
                     cannon_backup = cannon;
                     cannon.sprite = cannon_shield.sprite;                    
-                    cannon.position = new Vector2(cannon.position.X - 42, cannon.position.Y - 24);
+                    cannon.position = new Vector2(cannon.position.X - 66, cannon.position.Y - 50);
                     enableShield();
+                    unstoppableSound.Play();
                 }
             }
             else
@@ -804,8 +811,10 @@ namespace WindowsGame7
                     //Construct a collision rectangle around cannon, and
                     //check for an intersection.
                     Rectangle cannonRect = new Rectangle(
-                        (int)cannon.position.X-cannon.sprite.Width/2,
-                        (int)cannon.position.Y-cannon.sprite.Height/2,
+                        (int)cannon.position.X-42,
+                        (int)cannon.position.Y-42,
+                        //(int)cannon.position.X-cannon.sprite.Width/2,
+                        //(int)cannon.position.Y-cannon.sprite.Height/2,
                         cannon.sprite.Width,
                         cannon.sprite.Height);
 
@@ -815,17 +824,22 @@ namespace WindowsGame7
 
                         //Hitting an enemy with a cannon ball
                         //counts as a score point.
-                        if (lifes > 0)
+                        if (lifes > 0 && !cannon_shield.alive)
                             lifes--;
 
                         // display hitted cannon
                         // load sprite animation for damaged enemies
-                        damagedCannon = new SpriteAnimation(
-                        game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_damagedSprite"), 3);
-                        damagedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
-                        damagedCannon.IsLooping = false;
-                        damagedCannon.FramesPerSecond = 20;
-                        explodeSound.Play();                       
+                        if (!cannon_shield.alive)
+                        {
+                            damagedCannon = new SpriteAnimation(
+                            game.getContentManager().Load<Texture2D>("Sprites\\cannon_01_damagedSprite"), 3);
+                            damagedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
+                            damagedCannon.IsLooping = false;
+                            damagedCannon.FramesPerSecond = 20;
+                            explodeSound.Play();                       
+                        }
+                        else
+                            explodeSound.Play();                       
 
                         break;
                     }
@@ -936,15 +950,16 @@ namespace WindowsGame7
 
             
             // test rectangle to check collission-area
-            /*Texture2D rectangle;
+            Texture2D rectangle;
             rectangle = CreateRectangle(cannon.sprite.Width, cannon.sprite.Height);
-            spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-cannon.sprite.Width/2,cannon.position.Y-cannon.sprite.Height/2), Color.White);
-            */
+            //spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-cannon.sprite.Width/2,cannon.position.Y-cannon.sprite.Height/2), Color.White);
+            //spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-42,cannon.position.Y-42), Color.White);
+            
 
         }
 
-        /**
-         * test routine for creating a rectangle in order to check collision-areas
+        
+        // test routine for creating a rectangle in order to check collision-areas
         public Texture2D CreateRectangle(int width, int height)
         {
             Texture2D rectangleTexture = new Texture2D(game.GraphicsDevice, width, height, 1, TextureUsage.None,
@@ -958,7 +973,7 @@ namespace WindowsGame7
             rectangleTexture.SetData(color);//set the color data on the texture
             return rectangleTexture;
         }
-        **/
+        
 
         // enable pause of game
         public void BeginPause()
