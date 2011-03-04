@@ -179,7 +179,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Sprites\cannon_01_shield.xnb</Output>
-      <Time>2011-03-04T08:24:43.3805268+01:00</Time>
+      <Time>2011-03-04T14:16:13.9632595+01:00</Time>
     </Item>
     <Item>
       <Source>Audio\Waves\cannonshoot.wav</Source>
@@ -262,6 +262,15 @@
       <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.xnb</Output>
       <Extra>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Mp3s\music.wma</Extra>
       <Time>2011-02-21T09:29:44.033948+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Audio\Waves\unstoppable.wav</Source>
+      <Name>Audio\Waves\unstoppable</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\xna-ufo-attack\WindowsGame7\bin\x86\Debug\Content\Audio\Waves\unstoppable.xnb</Output>
+      <Time>2011-03-04T15:28:25.3640014+01:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
