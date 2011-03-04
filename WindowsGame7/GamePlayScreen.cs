@@ -22,7 +22,7 @@ namespace WindowsGame7
         const int avgTimeOfSupergunGoodie = 15000;
         const int avgTimeOfShieldGoodie = 15000;
         const int timeOfSupergun = 10000;
-        const int timeOfShield = 30000;
+        const int timeOfShield = 15000;
 
         // variable time values
         double supergunTime = 0;
