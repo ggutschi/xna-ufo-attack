@@ -76,6 +76,7 @@ namespace WindowsGame7
         // vectors for positioning
         Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
         Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);
+        Vector2 goodieTimePoint = new Vector2(0.05f, 0.15f);        
         Vector2 lifesDrawPoint = new Vector2(1f, 0.05f);
 
         Rectangle viewportRect;
@@ -545,8 +546,8 @@ namespace WindowsGame7
                     healthGoodie.sprite.Height);
 
                 Rectangle cannonRect = new Rectangle(
-                    (int)cannon.position.X,
-                    (int)cannon.position.Y,
+                    (int)cannon.position.X - 42,
+                    (int)cannon.position.Y - 42,
                     cannon.sprite.Width,
                     cannon.sprite.Height);
 
@@ -572,7 +573,7 @@ namespace WindowsGame7
                 {
                     FireHealthGoodie();
                     currentLevel.LastHealthLevel = currentLevel.GetLevel;
-                    healthGoodieTime = random.Next(5000, 25000);
+                    healthGoodieTime = random.Next(5000, 10000);
                 }
                 else
                 {
@@ -654,8 +655,8 @@ namespace WindowsGame7
                     supergunGoodie.sprite.Height);
 
                 Rectangle cannonRect = new Rectangle(
-                    (int)cannon.position.X,
-                    (int)cannon.position.Y,
+                    (int)cannon.position.X - 42,
+                    (int)cannon.position.Y - 42,
                     cannon.sprite.Width,
                     cannon.sprite.Height);
 
@@ -917,6 +918,26 @@ namespace WindowsGame7
                 levelDrawPoint.Y * viewportRect.Height),
                 Color.Yellow);
 
+            // Construct a shield goodie time string and draw it
+            if (shieldEnabled())
+            {
+                spriteBatch.DrawString(font,
+                "SHIELD TIME " + "\n" + shieldTime.ToString("#00000"),
+                new Vector2(goodieTimePoint.X * viewportRect.Width,
+                    goodieTimePoint.Y * viewportRect.Height), Color.Red);
+            }
+            else if (supergunEnabled())
+            {
+                // Construct a shield goodie time string and draw it
+                spriteBatch.DrawString(font,
+                "SUPERGUN TIME " + "\n" + supergunTime.ToString("#00000"),
+                new Vector2(goodieTimePoint.X * viewportRect.Width,
+                    goodieTimePoint.Y * viewportRect.Height), Color.Red);
+            }
+
+            
+            
+                
             //Draw life graphics
             for (int i = 0; i < lifes; i++)
                 spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width - 30 * (lifes - i) - 30, lifesDrawPoint.Y * viewportRect.Height), Color.White);
