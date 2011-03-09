@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNAUfoAttack
 {
-    /**
-     * renders the game over screen     
-    **/
+   /// <summary>
+   /// renders the game over screen, where the user can enter his player name
+   /// </summary>
      
     public class GameOverScreen
     {

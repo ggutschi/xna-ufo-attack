@@ -18,24 +18,29 @@ namespace XNAUfoAttack
     public class Menu
     {
 
-        private static int maxItems = 20;   //Gibt die maximale Anzahl der Menüeinträge an
-        private int menuItemCount;          //Gibt die aktuelle Anzahl aller Menüeinträge an
-        private int curMenuItem;            //Gibt den aktuellen Menüeintragindex an
-        private string[] menuItems;         //Array mit allen Menünamen
-        private Vector2[] pos;              //Array mit allen Menüpositionen
-        private double[] scale;             //Array mit allen Skalierungen der Menüeinträge
-        private Color unselected;           //Farbe der aktuell nicht ausgewählten Einträge
-        private Color selected;             //Farbe des ausgewählten Eintrages
-        private SpriteFont font;            //Fontdatei des Menüs
-        private Boolean visibility;         //regelt die Sichtbarkeit des Menüs
-        private MenuChoice[] choice;          //speichert den aktuell ausgewählten Menüpunkt
+        private static int maxItems = 20;   // maximum items in menu
+        private int menuItemCount;          // current amount of items in menu
+        private int curMenuItem;            // index of currently selected item
+        private string[] menuItems;         // array for the names of menu items
+        private Vector2[] pos;              // array for the position of menu items
+        private double[] scale;             // array for the scale of menu items
+        private Color unselected;           // color for unselected items
+        private Color selected;             // color for currently selected items
+        private SpriteFont font;            // font object to render menu items
+        private Boolean visibility;         // is menu currently visible or not
+        private MenuChoice[] choice;        // for each item a unique identifier (custom enum type "MenuChoice") is saved
 
-        private float minScale = 1.0f;
-        private float maxScale = 1.2f;
+        private float minScale = 1.0f;      // the minimum scale for each item
+        private float maxScale = 1.2f;      // the maximum scale for each item
 
         
-        //Constructor des Menüs
-        //Initialisiert Standardwerte
+        /// <summary>
+        /// constructs a menu
+        /// </summary>
+        /// <param name="unselectedColor">the color for inactive items</param>
+        /// <param name="selectedColor">the color for the active item</param>
+        /// <param name="font">the font object to render text</param>
+        /// <param name="visibility">determines if this menu is currently visible or not</param>
         public Menu(Color unselectedColor, Color selectedColor, SpriteFont font, Boolean visibility)
         {
             this.font = font;
@@ -50,11 +55,14 @@ namespace XNAUfoAttack
             this.choice = new MenuChoice[maxItems];
         }
 
-        //Methode zum Erstellen eines neuen Menüeintrages
-        //Übergibt den Namen und Position
+        /// <summary>
+        /// adds a new menu item to the menu
+        /// </summary>
+        /// <param name="name">the name of the menu item to render</param>
+        /// <param name="c">a unique identifier for that item (Enum type MenuChoice)</param>
+        /// <param name="p">position of the new item</param>
         public void AddMenuItem(string name, MenuChoice c, Vector2 p)
-        {
-            //Prüft ob bereits die maximale Anzahl erreicht wurde
+        {   
             if (menuItemCount < maxItems)
             {
                 menuItems[menuItemCount] = name;
@@ -64,8 +72,9 @@ namespace XNAUfoAttack
             }
         }
 
-        //Methode um den nächsten Menüpunkt auszuwählen
-        //Nach letztem Menüpunkt zum ersten zurückspringen
+        /// <summary>
+        /// selects the next menu item
+        /// </summary>
         public void SelectNext()
         {
             if (curMenuItem < menuItemCount - 1)
@@ -78,8 +87,9 @@ namespace XNAUfoAttack
             }
         }
 
-        //Methode um den letzten Menüpunkt auszuwählen
-        //Nach erstem Menüpunkt zum letzten zurückspringen
+        /// <summary>
+        /// selects the previous menu item
+        /// </summary>
         public void SelectPrev()
         {
             if (curMenuItem > 0)
@@ -92,13 +102,19 @@ namespace XNAUfoAttack
             }
         }
 
-        // setzt die Sichtbarkeit des Menüs
+        /// <summary>
+        /// sets the visibility of the menu
+        /// </summary>
+        /// <param name="visibility">true if menu should be visible</param>
         public void setVisibilty(Boolean visibility)
         {
             this.visibility = visibility;
         }
 
-        // liefert die Sichtbarkeit des Menüs zurück
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the visibility of the menu</returns>
         public Boolean isVisible()
         {
             return visibility;
@@ -106,13 +122,20 @@ namespace XNAUfoAttack
 
 
 
-        //Gibt den aktuellen Namen des aktuellen Menüpunktes zurück
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the unique identifier of the currently selected menu item</returns>
         public MenuChoice GetSelectedItem()
         {
             return choice[curMenuItem];
         }
 
-        //Updatet das Menü
+        /// <summary>
+        /// updates the menu (scaling for active and inactive menu items)
+        /// the scale establishes a small animation effect (selected menu items are getting a little bit larger through the scale)
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             //Durchläuft alle Menüpunkte
@@ -134,34 +157,27 @@ namespace XNAUfoAttack
             }
         }
 
-        //Methode um das komplette Menü zu zeichnen
-        //Übergibt die Spritebatch und einen Boolschen Wert der abgibt ob sich das Menü außerhalb von
-        //spriteBatch.Begin()/.End() befindet
+        
+        /// <summary>
+        /// draws the complete menu (with a smooth scaling effect for the currently selected menu item)
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="standalone">if true the menu is rendered "standalone", so that spriteBatch.Begin() and spriteBatch.End() are called inside this method</param>
         public void Draw(SpriteBatch spriteBatch, bool standalone)
         {
 
-            if (isVisible()) // zeichne Menü nur dann, wenn es sichtbar sein soll
+            if (isVisible()) // draw menu only if its visible
             {
                 if (standalone)
                     spriteBatch.Begin();
 
-                //Durchläuft alle Menüpunkte und zeichnet den Menüpunkt mit den entsprechenden Eigenschaften
+                // render all menu items
                 for (int i = 0; i < menuItemCount; i++)
                 {
-                    if (i == curMenuItem)
-                    {
-                        Vector2 p = pos[i];                 //Weist die Position einer temporären Variable zu
-                        p.X -= (float)(22 * scale[i] / 2);  //Verschiebt die Position der x-Achse um den Namen mittig anzuzeigen
-                        p.Y -= (float)(22 * scale[i] / 2);  //Verschiebt die Position der y-Achse um den Namen mittig anzuzeigen
-                        spriteBatch.DrawString(font, menuItems[i], p, selected, 0.0f, new Vector2(0, 0), (float)scale[i], SpriteEffects.None, 0);
-                    }
-                    else
-                    {
-                        Vector2 p = pos[i];                 //Weist die Position einer temporären Variable zu
-                        p.X -= (float)(22 * scale[i] / 2);  //Verschiebt die Position der x-Achse um den Namen mittig anzuzeigen
-                        p.Y -= (float)(22 * scale[i] / 2);  //Verschiebt die Position der y-Achse um den Namen mittig anzuzeigen
-                        spriteBatch.DrawString(font, menuItems[i], p, unselected, 0.0f, new Vector2(0, 0), (float)scale[i], SpriteEffects.None, 0);
-                    }
+                    Vector2 p = pos[i];                 // p saves the position of every menu item
+                    p.X -= (float)(22 * scale[i] / 2);  // move the position within the X-axis to center the name
+                    p.Y -= (float)(22 * scale[i] / 2);  // move the position within the X-axis to center the name
+                    spriteBatch.DrawString(font, menuItems[i], p, selected, 0.0f, new Vector2(0, 0), (float)scale[i], SpriteEffects.None, 0);                  
                 }
    
                 if (standalone)

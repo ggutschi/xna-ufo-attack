@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNAUfoAttack
 {
+    /// <summary>
+    /// renders the highscores (player name and their score)
+    /// </summary>
     public class HighScoreScreen
     {
         private Texture2D texture;
@@ -16,19 +19,27 @@ namespace XNAUfoAttack
         SpriteFont font;
         Rectangle viewportRect;
 
+        /// <summary>
+        /// constructs the high score screen (loads the neccessary font and texture objects)
+        /// </summary>
+        /// <param name="game"></param>
         public HighScoreScreen(Main game)
         {
             this.game = game;
             texture = game.getContentManager().Load<Texture2D>("Sprites\\start-screen");
             lastState = Keyboard.GetState();
             font = game.getContentManager().Load<SpriteFont>("Fonts\\HighscoreFont");
-            //Create a Rectangle that represents the full
-            //drawable area of the game screen.
+            // create a Rectangle that represents the full
+            // drawable area of the game screen.
             viewportRect = new Rectangle(0, 0,
                 game.GraphicsDevice.Viewport.Width,
                 game.GraphicsDevice.Viewport.Height);
         }
 
+        /// <summary>
+        /// updates the highscore screen
+        /// and checks user input
+        /// </summary>
         public void Update()
         {
             if (game.highscores == null)
@@ -36,16 +47,21 @@ namespace XNAUfoAttack
 
             KeyboardState keyboardState = Keyboard.GetState();
 
+            // pressing ENTER on this screen means to exit and go back to the start screen
             if (keyboardState.IsKeyDown(Keys.Enter) && lastState.IsKeyUp(Keys.Enter))
             {
                 game.highscores = null;
-
                 game.ExitCurrentGame();
             }
 
             lastState = keyboardState;
         }
 
+        /// <summary>
+        /// draws the highscore screen
+        /// iterates over all highscores and prints them out (one line for each highscore)
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
 
