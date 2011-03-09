@@ -18,33 +18,29 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 #endregion
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
+    /// <summary>
+    /// Represents the objects in the game
+    /// </summary>
     class GameObject
     {
-        public Texture2D sprite;
-        public Vector2 position;
-        public float rotation;
-        public Vector2 center;
-        public Vector2 velocity;
-        public bool alive;
-        public int killed = 0;
+        public Texture2D sprite;    // sprite for the object
+        public Vector2 position;    // object position on screen
+        public bool alive;          // is object alive?
+        public int killed = 0;      // how many enemies were killed by the GameObject
 
+        /// <summary>
+        /// GameObject constructor
+        /// </summary>
+        /// <param name="loadedTexture">Texture for the game object</param>
         public GameObject(Texture2D loadedTexture)
         {
-            rotation = 0.0f;
             position = Vector2.Zero;
 
             sprite = loadedTexture;
 
-            //The "center" of a sprite is the point
-            //halfway down its width and height.
-            center = new Vector2(
-                sprite.Width / 2, sprite.Height / 2);
-
-            //All objects should start with zero velocity, and
-            //be "dead".
-            velocity = Vector2.Zero;
+            // Object is initially dead
             alive = false;
         }
     }

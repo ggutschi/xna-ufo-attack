@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
 
     public class Menu

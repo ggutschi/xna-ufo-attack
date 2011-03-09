@@ -19,10 +19,10 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 #endregion
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main type for the game
     /// </summary>
     public class Main : Microsoft.Xna.Framework.Game
     {
@@ -31,9 +31,9 @@ namespace WindowsGame7
 
         private SpriteBatch spriteBatch;
 
-        public List<Highscore> highscores;
+        public List<Highscore> highscores;  // stores the online highscores after downloading from the highscore server
 
-        enum Screen
+        enum Screen                         // enum for different screens
         {
             StartScreen,
             GamePlayScreen,
@@ -41,15 +41,16 @@ namespace WindowsGame7
             GameOverScreen
         }
 
-        private StartScreen startScreen;
-        private Screen currentScreen;
-        private GamePlayScreen gamePlayScreen;
-        private GameOverScreen gameOverScreen;
-        private HighScoreScreen highScoreScreen;
+        private StartScreen startScreen;            // screen appearing at game start
+        private Screen currentScreen;               // storing the current screen
+        private GamePlayScreen gamePlayScreen;      // screen while playing xna-ufo-attack
+        private GameOverScreen gameOverScreen;      // screen at game over
+        private HighScoreScreen highScoreScreen;    // screen for displaying highscore
 
       
         public Main()
         {
+
             graphics = new GraphicsDeviceManager(this);
 
             // set default screen size to 1024x768
@@ -145,6 +146,7 @@ namespace WindowsGame7
                         highScoreScreen.Update();
                     break;
             }
+
             base.Update(gameTime);    
         }   
 
@@ -180,10 +182,13 @@ namespace WindowsGame7
                     break;
             }
             spriteBatch.End();
+
             base.Draw(gameTime);
-            
         }
 
+        /// <summary>
+        /// Starts the game
+        /// </summary>
         public void StartGame()
         {
             gamePlayScreen = new GamePlayScreen(this);
@@ -192,6 +197,10 @@ namespace WindowsGame7
             startScreen = null;
         }
 
+        /// <summary>
+        /// Shows the game over screen
+        /// </summary>
+        /// <param name="score">Score reached</param>
         public void showGameOver(int score)
         {
             gameOverScreen = new GameOverScreen(this, score);
@@ -201,6 +210,9 @@ namespace WindowsGame7
             
         }
 
+        /// <summary>
+        /// Displays the online highscores
+        /// </summary>
         public void ShowHighScore()
         {
             currentScreen = Screen.HighScoreScreen;
@@ -208,6 +220,9 @@ namespace WindowsGame7
             startScreen = null;
         }
 
+        /// <summary>
+        /// Exits the game
+        /// </summary>
         public void ExitCurrentGame()
         {
             startScreen = new StartScreen(this, true);

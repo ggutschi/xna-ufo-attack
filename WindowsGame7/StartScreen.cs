@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     public class StartScreen
     {

@@ -9,7 +9,7 @@
 
 using System;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     static class Program
     {

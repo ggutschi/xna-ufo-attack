@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     class Level
     {
