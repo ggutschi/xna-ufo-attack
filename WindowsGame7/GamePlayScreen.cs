@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     /// <summary>
     /// this class handles the screen during the game play
@@ -21,6 +21,8 @@ namespace WindowsGame7
         const float maxEnemyVelocity = 5.0f;
         const float minEnemyVelocity = 1.0f;
         const float cannonSpeed = 5f;
+        const int toShieldDeltaX = 1;
+        const int toShieldDeltaY = 25;
         const int maxCannonBalls = 2;
         const int avgTimeOfSupergunGoodie = 15000;
         const int avgTimeOfShieldGoodie = 15000;
@@ -40,7 +42,7 @@ namespace WindowsGame7
         int lifes = 3;              // current amount of lifes (each player starts with 3 lifes)
 
 
-        private Game1 game;         // the game object
+        private Main game;         // the game object
         
         // textures
         Texture2D backgroundTexture;
@@ -101,7 +103,7 @@ namespace WindowsGame7
         /// initializes all sounds and game objects (sprites)
         /// </summary>
         /// <param name="game"></param>
-        public GamePlayScreen(Game1 game)
+        public GamePlayScreen(Main game)
         {
             this.game = game;
             
@@ -391,13 +393,13 @@ namespace WindowsGame7
                     ball.position = cannon.position;
 
                     if (shieldEnabled())
-                        ball.position.X += 66;
+                        ball.position.X += toShieldDeltaX;
                     
                     //Determine velocity using sine and
                     //cosine of the cannon's rotation angle,
                     //then scale by 5 to speed up the ball.
                     //Console.WriteLine(cannon.rotation);
-                    float cannon_rotation = cannon.rotation - (float)Math.PI / 2;
+                    float cannon_rotation =  - (float)Math.PI / 2;
                     ball.velocity = new Vector2(
                         (float)Math.Cos(cannon_rotation),
                         (float)Math.Sin(cannon_rotation))
@@ -514,7 +516,7 @@ namespace WindowsGame7
                 disableShield();
                 cannon.sprite = game.getContentManager().Load<Texture2D>(
                 "Sprites\\cannon_01");
-                cannon.position = new Vector2(cannon.position.X + 66, cannon.position.Y + 50);
+                cannon.position = new Vector2(cannon.position.X + toShieldDeltaX, cannon.position.Y + toShieldDeltaY);
             }
         }
             
@@ -527,7 +529,7 @@ namespace WindowsGame7
             if (reloadedCannon != null)
             {
                 if (cannon_shield.alive)
-                    reloadedCannon.Position = new Vector2(cannon.position.X+23, cannon.position.Y+13);
+                    reloadedCannon.Position = new Vector2(cannon.position.X - 42, cannon.position.Y - 11);
                 else
                     reloadedCannon.Position = new Vector2(cannon.position.X - cannon.sprite.Width + 43, cannon.position.Y - 37);
 
@@ -601,6 +603,8 @@ namespace WindowsGame7
                 if (healthGoodieRect.Intersects(cannonRect))
                 {
                     healthGoodie.alive = false;
+                    if (lifes < 3)
+                        lifes++;            // get one more life
 
                     godlikeSound.Play();
                   
@@ -665,7 +669,7 @@ namespace WindowsGame7
                     // update cannon sprite
                     cannon_backup = cannon;
                     cannon.sprite = cannon_shield.sprite;                    
-                    cannon.position = new Vector2(cannon.position.X - 66, cannon.position.Y - 50);
+                    cannon.position = new Vector2(cannon.position.X - toShieldDeltaX, cannon.position.Y - toShieldDeltaY);
                     enableShield();
                     unstoppableSound.Play();
                 }
@@ -950,8 +954,8 @@ namespace WindowsGame7
             // draw the cannon game object
             spriteBatch.Draw(cannon.sprite,
                 cannon.position, null, Color.White,
-                cannon.rotation,
-                cannon.center, 1.0f,
+                0f,
+                new Vector2(cannon.sprite.Width / 2, cannon.sprite.Height / 2), 1.0f,
                 SpriteEffects.None, 0);
 
             // draw enemies
