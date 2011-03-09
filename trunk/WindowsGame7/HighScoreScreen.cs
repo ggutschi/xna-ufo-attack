@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
     public class HighScoreScreen
     {

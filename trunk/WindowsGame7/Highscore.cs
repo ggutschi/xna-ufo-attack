@@ -6,27 +6,41 @@ using System.Net;
 using System.IO;
 using System.Data;
 
-namespace WindowsGame7
+namespace XNAUfoAttack
 {
+    /// <summary>
+    /// Class representing single highscore with static methods to update and receive highscores from server
+    /// </summary>
     public class Highscore
     {
-        static String server = "http://vserver1.xgx.at/livesites/ufo-attack/";
+        static String server = "http://vserver1.xgx.at/livesites/ufo-attack/";      // server storing the highscore scripts
 
-        public int score;
-        public String name;
-        public DateTime date;
+        public int score;       // value of highscore
+        public String name;     // name of user
+        public DateTime date;   // date of highscore
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Highscore()
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Name of user</param>
+        /// <param name="score">Score of user</param>
         public Highscore(String name, int score)
         {
             this.name = name;
             this.score = score;
         }
 
+        /// <summary>
+        /// Submits the given score to the server
+        /// </summary>
+        /// <param name="h">Highscore to submit</param>
         public static void setHighscore(Highscore h)
         {
             try
@@ -39,6 +53,10 @@ namespace WindowsGame7
             }
         }
 
+        /// <summary>
+        /// Loads the scores from the server
+        /// </summary>
+        /// <returns>The list of the highest scores</returns>
         public static List<Highscore> loadHighscores()
         {
             List<Highscore> scores = new List<Highscore>();
