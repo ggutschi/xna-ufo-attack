@@ -36,7 +36,7 @@ namespace WindowsGame7
         int lifes = 3;
 
         // the game object
-        private Game1 game;
+        private Main game;
         
         // textures
         Texture2D backgroundTexture;
@@ -96,7 +96,7 @@ namespace WindowsGame7
         // pause menu
         Menu pauseMenu;
         
-        public GamePlayScreen(Game1 game)
+        public GamePlayScreen(Main game)
         {
             this.game = game;
             

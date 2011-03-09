@@ -13,7 +13,7 @@ namespace WindowsGame7
     public class StartScreen
     {
         private Texture2D texture;
-        private Game1 game;
+        private Main game;
         private bool returnFromScreen;
         
         Menu startMenu;
@@ -24,7 +24,7 @@ namespace WindowsGame7
         Song music;
 
 
-        public StartScreen(Game1 game, bool returnFromScreen)
+        public StartScreen(Main game, bool returnFromScreen)
         {
             this.game = game;
 

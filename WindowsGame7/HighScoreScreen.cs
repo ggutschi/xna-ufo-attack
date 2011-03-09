@@ -11,12 +11,12 @@ namespace WindowsGame7
     public class HighScoreScreen
     {
         private Texture2D texture;
-        private Game1 game;
+        private Main game;
         private KeyboardState lastState;
         SpriteFont font;
         Rectangle viewportRect;
 
-        public HighScoreScreen(Game1 game)
+        public HighScoreScreen(Main game)
         {
             this.game = game;
             texture = game.getContentManager().Load<Texture2D>("Sprites\\start-screen");

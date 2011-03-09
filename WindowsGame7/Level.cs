@@ -8,7 +8,7 @@ namespace WindowsGame7
 {
     class Level
     {
-        private Game1 game;
+        private Main game;
 
         int level = 1;
         int maxEnemies = 2;
@@ -16,7 +16,7 @@ namespace WindowsGame7
         float enemyCannonSpeed = 1.6f;
         int lastHealthLevel = 0;
 
-        public Level(Game1 game)
+        public Level(Main game)
         {
             this.game = game;
             
