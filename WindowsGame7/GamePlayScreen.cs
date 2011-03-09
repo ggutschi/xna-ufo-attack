@@ -8,8 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 
-namespace XNAUfoAttack
+namespace WindowsGame7
 {
+    /// <summary>
+    /// this class handles the screen during the game play
+    /// </summary>
     class GamePlayScreen
     {
         // constants
@@ -32,35 +35,35 @@ namespace XNAUfoAttack
         double healthGoodieTime = 5000;
 
         int lastScore;
-        int score;
-        int lifes = 3;
 
-        // the game object
-        private Main game;
+        int score;                  // current score of player
+        int lifes = 3;              // current amount of lifes (each player starts with 3 lifes)
+
+
+        private Game1 game;         // the game object
         
         // textures
         Texture2D backgroundTexture;
         Texture2D lifeGraphics;
 
-        // Game objects
-        GameObject cannon;
-        GameObject cannon_backup;
-        GameObject cannon_shield;
-        GameObject supergunGoodie;
-        GameObject shieldGoodie;
-        GameObject healthGoodie;
-        GameObject[] cannonBalls;
+        // game objects
+        GameObject cannon;                                          // standard game object
+        GameObject cannon_backup;                                   // backup of the game object (during the goodie time)
+        GameObject cannon_shield;                                   // extends the standard game object (with a shield)
+        GameObject supergunGoodie;                                  // goodie for getting a better laser gun
+        GameObject shieldGoodie;                                    // goodie for protecting the player from damaged
+        GameObject healthGoodie;                                    // goodie for getting one more life
+        GameObject[] cannonBalls;                                   // cannon balls of player
         GameObject lastEnemyShooted = null;                         // last enemy which shooted a cannon ball
-        GameObject[] enemyCannonBalls = new GameObject[0];
-        GameObject[] enemies = new GameObject[0];
-        List<GameObject> damagedEnemies = new List<GameObject>();   // lists for animating damaged enemies
+        GameObject[] enemyCannonBalls = new GameObject[0];          // cannon balls of enemys
+        GameObject[] enemies = new GameObject[0];                   // all enemies
+        List<GameObject> damagedEnemies = new List<GameObject>();   // all enemies that are currently damaged (needed for sprite animations)
 
-        GamePadState previousGamePadState = GamePad.GetState(PlayerIndex.One);
-        KeyboardState oldState;
+
+        KeyboardState oldState;                                     // previous keyboard state
         KeyboardState previousKeyboardState = Keyboard.GetState();
 
         Random random = new Random();
-
 
         Level currentLevel;                                         // game level
         Boolean paused = false;                                     // is game paused or not
@@ -68,35 +71,37 @@ namespace XNAUfoAttack
         // Sprite animations
         SpriteAnimation damagedCannon;                              // sprite for animating damaged cannon
         SpriteAnimation reloadedCannon;                             // sprite for reloaded cannon (got a goodie)
-        List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>();
+        List<SpriteAnimation> damagedEnemiesSprites = new List<SpriteAnimation>(); // list of all currently sprite animations (for damaged enemies)
 
-        // game font
-        SpriteFont font;
+        SpriteFont font;                                            // game font
 
         // vectors for positioning
-        Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);
-        Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);
-        Vector2 goodieTimePoint = new Vector2(0.05f, 0.15f);        
-        Vector2 lifesDrawPoint = new Vector2(1f, 0.05f);
+        Vector2 scoreDrawPoint = new Vector2(0.05f, 0.05f);         // position of the current score
+        Vector2 levelDrawPoint = new Vector2(0.15f, 0.05f);         // position of the current level
+        Vector2 goodieTimePoint = new Vector2(0.05f, 0.15f);        // position of the shield goodie time (if active)
+        Vector2 lifesDrawPoint = new Vector2(1f, 0.05f);            // position of the remaining lifes of the player
 
-        Rectangle viewportRect;
+        Rectangle viewportRect;                                     // the current viewport on screen
 
         // sound effects
-        SoundEffect enemyShootSound;
-        SoundEffect cannonShootSound;
-        SoundEffect explodeSound;
-        SoundEffect cannonExtShootSound;
-        SoundEffect doubleKillSound;
-        SoundEffect multiKillSound;
-        SoundEffect killingSpreeSound;
-        SoundEffect godlikeSound;
-        SoundEffect unstoppableSound;
+        SoundEffect enemyShootSound;                                // sound when the enemy shoots
+        SoundEffect cannonShootSound;                               // sound when the player shoots
+        SoundEffect explodeSound;                                   // sound when a ball hits a enemy
+        SoundEffect cannonExtShootSound;                            // sound of the better laser gun (when having the supergun goodie)
+        SoundEffect doubleKillSound;                                // sound if you hit two enemies with one shot
+        SoundEffect multiKillSound;                                 // sound if you hit more than two enemies with one shot
+        SoundEffect killingSpreeSound;                              // sound if you get the supergun
+        SoundEffect godlikeSound;                                   // sound if you get one more life (life goodie)
+        SoundEffect unstoppableSound;                               // sound if you get the shield goodie
 
-
-        // pause menu
-        Menu pauseMenu;
+        Menu pauseMenu;                                             // pause menu
         
-        public GamePlayScreen(Main game)
+        /// <summary>
+        /// constructor for the game play screen
+        /// initializes all sounds and game objects (sprites)
+        /// </summary>
+        /// <param name="game"></param>
+        public GamePlayScreen(Game1 game)
         {
             this.game = game;
             
@@ -141,48 +146,54 @@ namespace XNAUfoAttack
                     "Sprites\\cannon_laser"));
             }
 
+            // initialize level of the game
             currentLevel = new Level(game);
-
             currentLevel.initLevel(ref enemies, ref enemyCannonBalls);
-
+            // load game font
             font = game.getContentManager().Load<SpriteFont>("Fonts\\GameFont");
-
-
+            // initialize pause menu
             pauseMenu = new Menu(Color.White, Color.LightBlue, game.getContentManager().Load<SpriteFont>("Fonts\\GameFont"), false);
-            //Menüpunkt hinzufügen
+            // add menu items
             pauseMenu.AddMenuItem("Fortsetzen", MenuChoice.CONTINUE, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 100));
             pauseMenu.AddMenuItem("Beenden", MenuChoice.EXIT, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 50, game.GraphicsDevice.Viewport.Height / 2 - 50));
 
-            //Create a Rectangle that represents the full
-            //drawable area of the game screen.
+            // create a Rectangle that represents the full
+            // drawable area of the game screen.
             viewportRect = new Rectangle(0, 0,
                 game.GraphicsDevice.Viewport.Width,
                 game.GraphicsDevice.Viewport.Height);
 
-            // increase game play sound to 80%
+            // increase game play sound to 80% (game sound is initially lower on the start screen)
             MediaPlayer.Volume = 0.8f;
-
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true if the supergun goodie is currently enabled</returns>
         private bool supergunEnabled()
         {
             return supergunTime > 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>true if the shield goodie is currently enabled</returns>
         private bool shieldEnabled()
         {
             return cannon_shield.alive;
         }
 
-
+        /// <summary>
+        /// updates all game objects
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
-        {
-            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-            
-            // cannon.rotation += gamePadState.ThumbSticks.Left.X * 0.1f;
+        {   
             KeyboardState keyboardState = Keyboard.GetState();
 
+            // handle cannon movement
             if (keyboardState.IsKeyDown(Keys.Left) && cannon.position.X >= 0)
             {
                 if (damagedCannon == null || damagedCannon.isAnimationOver()) // moving of cannon is only allowed if it gets not hitted
@@ -196,22 +207,25 @@ namespace XNAUfoAttack
 
             if (keyboardState.IsKeyDown(Keys.Escape) && !pauseMenu.isVisible())
             {
+                // show pause menu
                 BeginPause();
             }
 
             if (keyboardState.IsKeyDown(Keys.Down) && pauseMenu.isVisible() && !oldState.IsKeyDown(Keys.Down))
             {
+                // select next menu item in pause menu
                 pauseMenu.SelectNext();
             }
 
             if (keyboardState.IsKeyDown(Keys.Up) && pauseMenu.isVisible() && !oldState.IsKeyDown(Keys.Up))
             {
+                // select previous menu item in pause menu
                 pauseMenu.SelectPrev();
-
             }
 
             if (keyboardState.IsKeyDown(Keys.Enter) && pauseMenu.isVisible())
             {
+                // user choose a menu item -> handle that by querying active menu item
                 if (pauseMenu.GetSelectedItem().Equals(MenuChoice.CONTINUE))
                 {
                     EndPause();
@@ -227,29 +241,25 @@ namespace XNAUfoAttack
             oldState = keyboardState;
 
             // update game only if it´s not paused
-            if (!isGamePaused())
+            if (!isGamePaused())    
             {
-                //Update superguntime
+                // update supergun time
                 if (supergunEnabled())
                     supergunTime -= gameTime.ElapsedGameTime.Milliseconds;
 
-                //Only fire cannon ball if player has pressed button
-                //this update loop - do not fire cannon ball if
-                //button is merely held down.
-                if (gamePadState.Buttons.A == ButtonState.Pressed &&
-                    previousGamePadState.Buttons.A == ButtonState.Released)
-                {
-                    FireCannonBall();
-                }
-
+                // only fire cannon ball if player has pressed button
+                // this update loop - do not fire cannon ball if
+                // button is merely held down.
                 if (keyboardState.IsKeyDown(Keys.Up) &&
                     previousKeyboardState.IsKeyUp(Keys.Up))
                 {
                     FireCannonBall();
                 }
 
+                // handles fire of enemy cannon balls
                 FireEnemyCannonBall();
 
+                // update routines for all game objects (cannon balls, enemies, goodies)
                 UpdateCannonBalls(gameTime);
                 UpdateEnemyCannonBalls();
                 UpdateEnemies();
@@ -262,9 +272,8 @@ namespace XNAUfoAttack
                 UpdateReloadedCannon(gameTime);
                 UpdateLevel();
 
-                //Reset previous input states to current states
-                //for next Update call.
-                previousGamePadState = gamePadState;
+                // reset previous input states to current states
+                // for next Update call.                
                 previousKeyboardState = keyboardState;
 
             } // if game is not paused
@@ -273,29 +282,38 @@ namespace XNAUfoAttack
             pauseMenu.Update(gameTime);
         }
 
+        /// <summary>
+        /// enables the supergun goodie for the player
+        /// </summary>
         private void enableSupergun()
         {
             supergunTime = timeOfSupergun;
         }
 
+        /// <summary>
+        /// enables the shield goodie for the player
+        /// </summary>
         private void enableShield()
         {
             cannon_shield.alive = true;
             shieldTime = timeOfShield;
         }
 
+        /// <summary>
+        /// disables the shield goodie for the player
+        /// </summary>
         private void disableShield()
         {
             cannon_shield.alive = false;
             shieldTime = 0;            
         }
-        
 
         /// <summary>
         /// Increases the level if score is high enough.
         /// </summary>
         public void UpdateLevel()
         {
+            // increase level on every 10 points
             if (score % 10 == 0 && score != lastScore)
             {
                 currentLevel.increaseLevel(ref enemies, ref enemyCannonBalls);
@@ -305,7 +323,7 @@ namespace XNAUfoAttack
         }
 
         /// <summary>
-        /// Updates enemy positions, kills them if
+        /// updates enemy positions, kills them if
         /// they leave the screen, and resurrects
         /// dead enemies, giving them random position
         /// and velocity.
@@ -353,7 +371,7 @@ namespace XNAUfoAttack
         }
 
         /// <summary>
-        /// Places a cannon ball object into the game world
+        /// places a cannon ball object into the game world
         /// by setting position and velocity
         /// </summary>
         public void FireCannonBall()
@@ -395,6 +413,9 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// places a shield goodie object into the game world if there isn´t one there
+        /// </summary>
         public void FireShieldGoodie()
         {
             if (!shieldGoodie.alive)
@@ -406,6 +427,9 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// places a supergun goodie into the game world if there isn´t one there
+        /// </summary>
         public void FireSupergunGoodie()
         {
             if (!supergunGoodie.alive)
@@ -417,6 +441,9 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// places a health goodie into the game world if there isn´t one there
+        /// </summary>
         public void FireHealthGoodie()
         {
             if (!healthGoodie.alive && lifes < 3)
@@ -428,9 +455,8 @@ namespace XNAUfoAttack
             }
         }
 
-
         /// <summary>
-        /// Places a cannon ball object into the game world
+        /// places a cannon ball object into the game world
         /// by setting position and velocity
         /// </summary>
         public void FireEnemyCannonBall()
@@ -471,6 +497,11 @@ namespace XNAUfoAttack
             }
         }
         
+        /// <summary>
+        /// updates the cannon shield by reducing the shield time every update cycle.
+        /// cannon shield will be disabled if shield time <= 0
+        /// </summary>
+        /// <param name="gameTime"></param>
         private void UpdateCannonShield(GameTime gameTime)
         {
             if (shieldEnabled())
@@ -487,7 +518,10 @@ namespace XNAUfoAttack
             }
         }
             
-
+        /// <summary>
+        /// updates the reloaded cannon (cannon with supergun)
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateReloadedCannon(GameTime gameTime)
         {
             if (reloadedCannon != null)
@@ -502,6 +536,11 @@ namespace XNAUfoAttack
                 
         }
 
+        /// <summary>
+        /// updates the animations for the damaged enemies
+        /// and checks whether the sprite animations are over (in this case, remove all finished sprite animations)
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateDamagedEnemies(GameTime gameTime)
         {
             // remove all damaged enemies when the damage animation is already over
@@ -520,12 +559,20 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// updates the cannon when they was hitted by a cannon ball
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateDamagedCannon(GameTime gameTime)
         {
             if (damagedCannon != null)
                 damagedCannon.Update(gameTime);
         }
 
+        /// <summary>
+        /// updates the goodie game object for getting one more life
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateHealthGoodie(GameTime gameTime)
         {
             if (healthGoodie.alive)
@@ -583,6 +630,10 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// updates the goodie game object for getting a protection shield
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateShieldGoodie(GameTime gameTime)
         {
             if (shieldGoodie.alive)
@@ -624,7 +675,6 @@ namespace XNAUfoAttack
                 if (shieldGoodieTime <= 0 && cannon_shield.alive == false)
                 {
                     FireShieldGoodie();
-
                     shieldGoodieTime = avgTimeOfShieldGoodie + random.Next(-10000, 10000);
                 }
                 else
@@ -636,6 +686,10 @@ namespace XNAUfoAttack
 
         }
 
+        /// <summary>
+        /// updates the goodie game object for getting a supergun
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void UpdateSupergunGoodie(GameTime gameTime)
         {
             if (supergunGoodie.alive)
@@ -678,6 +732,7 @@ namespace XNAUfoAttack
             }
             else
             {
+                // no supergun in the world (check if a new supergun goodie can be placed into the world)
                 if (supergunGoodieTime <= 0)
                 {
                     FireSupergunGoodie();
@@ -693,7 +748,7 @@ namespace XNAUfoAttack
         }
 
         /// <summary>
-        /// Moves cannon balls, handles cannon balls
+        /// moves cannon balls, handles cannon balls
         /// that move off screen edges, and tests intersection
         /// between cannon balls and enemies
         /// </summary>
@@ -848,14 +903,19 @@ namespace XNAUfoAttack
             }
         }
 
+        /// <summary>
+        /// draws the current game world within one sprite batch
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            //Draw the backgroundTexture sized to the width
-            //and height of the screen.
+            // draw the backgroundTexture sized to the width
+            // and height of the screen.
             spriteBatch.Draw(backgroundTexture, viewportRect,
                 Color.White);
 
+            // draw goodies if they are currently alive
             if (supergunGoodie.alive)
                 spriteBatch.Draw(supergunGoodie.sprite,
                     supergunGoodie.position, Color.White);
@@ -868,6 +928,7 @@ namespace XNAUfoAttack
                 spriteBatch.Draw(healthGoodie.sprite,
                     healthGoodie.position, Color.White);
 
+            // draw all cannon balls if they are currently alive
             foreach (GameObject ball in cannonBalls)
             {
                 if (ball.alive)
@@ -886,13 +947,14 @@ namespace XNAUfoAttack
                 }
             }
 
-            //Draw the cannon GameObject using rotation.
+            // draw the cannon game object
             spriteBatch.Draw(cannon.sprite,
                 cannon.position, null, Color.White,
                 cannon.rotation,
                 cannon.center, 1.0f,
                 SpriteEffects.None, 0);
 
+            // draw enemies
             foreach (GameObject enemy in enemies)
             {
                 if (enemy.alive)
@@ -902,23 +964,23 @@ namespace XNAUfoAttack
                 }
             }
 
-            //Construct a score string and draw to
-            //near top-left corner of the screen.
+            // construct a score string and draw to
+            // near top-left corner of the screen.
             spriteBatch.DrawString(font,
                 "SCORE" + "\n" + score.ToString("#00000"),
                 new Vector2(scoreDrawPoint.X * viewportRect.Width,
                 scoreDrawPoint.Y * viewportRect.Height),
                 Color.Turquoise);
 
-            //Construct a level string and draw to
-            //near top-left corner of the screen.
+            // construct a level string and draw to
+            // near top-left corner of the screen.
             spriteBatch.DrawString(font,
                 "LEVEL" + "\n" + currentLevel.ToString("#00000"),
                 new Vector2(levelDrawPoint.X * viewportRect.Width,
                 levelDrawPoint.Y * viewportRect.Height),
                 Color.Yellow);
 
-            // Construct a shield goodie time string and draw it
+            // construct a shield goodie time string and draw it (only if shield is enabled)
             if (shieldEnabled())
             {
                 spriteBatch.DrawString(font,
@@ -928,17 +990,14 @@ namespace XNAUfoAttack
             }
             else if (supergunEnabled())
             {
-                // Construct a shield goodie time string and draw it
+                // construct a shield goodie time string and draw it
                 spriteBatch.DrawString(font,
                 "SUPERGUN TIME " + "\n" + supergunTime.ToString("#00000"),
                 new Vector2(goodieTimePoint.X * viewportRect.Width,
                     goodieTimePoint.Y * viewportRect.Height), Color.Red);
             }
-
-            
-            
                 
-            //Draw life graphics
+            // draw life graphics
             for (int i = 0; i < lifes; i++)
                 spriteBatch.Draw(lifeGraphics, new Vector2(lifesDrawPoint.X * viewportRect.Width - 30 * (lifes - i) - 30, lifesDrawPoint.Y * viewportRect.Height), Color.White);
 
@@ -970,17 +1029,21 @@ namespace XNAUfoAttack
                 reloadedCannon = null;
 
             
-            // test rectangle to check collission-area
-            Texture2D rectangle;
-            rectangle = CreateRectangle(cannon.sprite.Width, cannon.sprite.Height);
+            //test rectangle to check collission-area
+            //Texture2D rectangle;
+            //rectangle = CreateRectangle(cannon.sprite.Width, cannon.sprite.Height);
             //spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-cannon.sprite.Width/2,cannon.position.Y-cannon.sprite.Height/2), Color.White);
             //spriteBatch.Draw(rectangle, new Vector2(cannon.position.X-42,cannon.position.Y-42), Color.White);
             
-
         }
 
         
-        // test routine for creating a rectangle in order to check collision-areas
+        /// <summary>
+        /// test routine for creating a rectangle in order to check collision-areas
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public Texture2D CreateRectangle(int width, int height)
         {
             Texture2D rectangleTexture = new Texture2D(game.GraphicsDevice, width, height, 1, TextureUsage.None,
@@ -996,26 +1059,31 @@ namespace XNAUfoAttack
         }
         
 
-        // enable pause of game
+        /// <summary>
+        /// enable pause of game
+        /// </summary>
         public void BeginPause()
         {
             paused = true;
             pauseMenu.setVisibilty(true);
         }
 
-        // disable pause of game
+        /// <summary>
+        /// disable pause of game
+        /// </summary>
         public void EndPause()
         {
             paused = false;
             pauseMenu.setVisibilty(false);
         }
 
-        // return state of game (paused or not)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>return state of game (paused or not)</returns>
         public bool isGamePaused()
         {
             return paused;
         }
-
-
     }
 }

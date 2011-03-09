@@ -29,6 +29,7 @@ namespace XNAUfoAttack
         public Vector2 position;    // object position on screen
         public bool alive;          // is object alive?
         public int killed = 0;      // how many enemies were killed by the GameObject
+        public Vector2 velocity;    // the velocity of a game object
 
         /// <summary>
         /// GameObject constructor
