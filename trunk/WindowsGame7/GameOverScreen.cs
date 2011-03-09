@@ -8,20 +8,30 @@ using Microsoft.Xna.Framework.Input;
 
 namespace XNAUfoAttack
 {
+    /**
+     * renders the game over screen     
+    **/
+     
     public class GameOverScreen
     {
-        private Texture2D texture;
+        // reference to main object 
         private Main game;
+
+        private Texture2D texture;
+       // last keyboard state
         private KeyboardState lastState;
+        // current keyboard state
         private KeyboardState keyboardState;
+        // Font for displaying text message
         SpriteFont font;
-
-        int score;
-
+        // the final score of the player
+        private int score;
+        // the text to render on screen (for player name)
         string text = "";
-        string initialtext = "Please enter your name";
+        // initial info text on game over screen
+        private const string initialtext = "Please enter your name";
 
-
+        // valid input keys (to enter player name)
         Keys[] keysToCheck = new Keys[] {Keys.A, Keys.B, Keys.C, Keys.D, Keys.E,
                                          Keys.F, Keys.G, Keys.H, Keys.I, Keys.J,
                                          Keys.K, Keys.L, Keys.M, Keys.N, Keys.O,
@@ -29,19 +39,26 @@ namespace XNAUfoAttack
                                          Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y,
                                          Keys.Z, Keys.Back, Keys.Space };
 
-        bool bFirstKeyHit = false; 
+        // boolean to check whether user has entered already some keys (to remove initial text)
+        private bool bFirstKeyHit = false; 
 
-
+        /// <summary>
+        /// constructor to create a game over screen
+        /// </summary>
+        /// <param name="game">the main game object</param>
+        /// <param name="score">the final score of the player</param>
         public GameOverScreen(Main game, int score)
         {
             this.game = game;
             this.score = score;
-
             texture = game.getContentManager().Load<Texture2D>("Sprites\\game-over");
             lastState = Keyboard.GetState();
             font = game.getContentManager().Load<SpriteFont>("Fonts\\HighscoreFont");
         }
 
+        /// <summary>
+        /// updates the game over screen
+        /// </summary>
         public void Update()
         {
             KeyboardState keyboardState = Keyboard.GetState();
@@ -49,7 +66,6 @@ namespace XNAUfoAttack
             if (keyboardState.IsKeyDown(Keys.Enter) && lastState.IsKeyUp(Keys.Enter))
             {
                 Highscore.setHighscore(new Highscore(text, score));
-
                 game.ExitCurrentGame();
             }
             
@@ -64,6 +80,10 @@ namespace XNAUfoAttack
             lastState = keyboardState;
         }
 
+        /// <summary>
+        /// draws all objects on screen within one sprite batch
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             if (texture != null)
@@ -88,7 +108,10 @@ namespace XNAUfoAttack
             
         }
 
-
+        /// <summary>
+        /// adds an user entered key to the input field of the player name
+        /// </summary>
+        /// <param name="key">the key which was entered by the user</param>
         private void AddKeyToText(Keys key) {
             string newChar = "";
 
