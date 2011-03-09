@@ -11,7 +11,7 @@ namespace WindowsGame7
     public class GameOverScreen
     {
         private Texture2D texture;
-        private Game1 game;
+        private Main game;
         private KeyboardState lastState;
         private KeyboardState keyboardState;
         SpriteFont font;
@@ -32,7 +32,7 @@ namespace WindowsGame7
         bool bFirstKeyHit = false; 
 
 
-        public GameOverScreen(Game1 game, int score)
+        public GameOverScreen(Main game, int score)
         {
             this.game = game;
             this.score = score;
